@@ -4,7 +4,7 @@ from abc import abstractmethod, ABCMeta
 
 class IDataProcessor(metaclass=ABCMeta):
     """
-    数据处理器接口类
+    Interface class for data processors
     :param metaclass:
     :return:
     """

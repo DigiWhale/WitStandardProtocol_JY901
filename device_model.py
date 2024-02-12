@@ -1,57 +1,58 @@
-# coding:UTF-8
+# coding: UTF-8
 import threading
 import _thread
 import time
 import struct
 import serial
 from serial import SerialException
+
 '''
-    串口配置
+    Serial Configuration
 '''
 
 
 class SerialConfig:
-    # 端口
+    # Port
     portName = ''
 
-    # 波特率
+    # Baud rate
     baud = 9600
 
 '''
-设备模型
+Device Model
 '''
 
 
 class DeviceModel:
-    # 设备名称
-    deviceName = "我的设备"
+    # Device Name
+    deviceName = "My Device"
 
-    #设备ID
+    # Device ID
     ADDR = 0x50
 
-    # 设备数据字典
+    # Device Data Dictionary
     deviceData = {}
 
-    # 是否卡开
+    # Is Open
     isOpen = False
 
-    # 串口
+    # Serial Port
     serialPort = None
 
-    # 串口配置
+    # Serial Configuration
     serialConfig = SerialConfig()
 
-    # 更新触发器
+    # Update Trigger
     dataUpdateListener = ""
 
-    # 数据解析器
+    # Data Processor
     dataProcessor = None
 
-    # 协议解析器
+    # Protocol Resolver
     protocolResolver = None
 
     def __init__(self, deviceName, protocolResolver, dataProcessor, dataUpdateListener):
-        print("初始化设备模型")
+        print("Initializing device model")
         self.deviceName = deviceName
         self.protocolResolver = protocolResolver
         self.dataProcessor = dataProcessor
@@ -60,183 +61,179 @@ class DeviceModel:
 
     def setDeviceData(self, key, value):
         """
-        设置设备数据
-        :param key: 数据key
-        :param value: 数据值
-        :return: 无返回
+        Set device data
+        :param key: Data key
+        :param value: Data value
+        :return: None
         """
         self.deviceData[key] = value
 
     def getDeviceData(self, key):
         """
-        获得设备数据
-        :param key: 数据key
-        :return: 返回数据值，不存在的数据key则返回None
+        Get device data
+        :param key: Data key
+        :return: Data value if exists, otherwise None
         """
-        if ( key in self.deviceData):
+        if key in self.deviceData:
             return self.deviceData[key]
         else:
             return None
 
     def removeDeviceData(self, key):
         """
-        删除设备数据
-        :param key: 数据key
-        :return: 无反回
+        Remove device data
+        :param key: Data key
+        :return: None
         """
         del self.deviceData[key]
 
     def readDataTh(self, threadName, delay):
         """
-        读取数据线程
-        :return:
+        Read data thread
+        :return: None
         """
-        print("启动" + threadName)
+        print("Starting " + threadName)
         while True:
-            # 如果串口打开了
+            # If the serial port is open
             if self.isOpen:
                 try:
                     tlen = self.serialPort.inWaiting()
-                    if (tlen>0):
+                    if tlen > 0:
                         data = self.serialPort.read(tlen)
                         self.onDataReceived(data)
                 except Exception as ex:
                     print(ex)
             else:
                 time.sleep(0.1)
-                print("暂停")
+                print("Paused")
                 break
 
     def openDevice(self):
         """
-        打开设备
-        :return: 无返回
+        Open the device
+        :return: None
         """
 
-        # 先关闭端口
+        # Close the port first
         self.closeDevice()
         try:
             self.serialPort = serial.Serial(self.serialConfig.portName, self.serialConfig.baud, timeout=0.5)
             self.isOpen = True
-            t = threading.Thread(target=self.readDataTh, args=("Data-Received-Thread",10,))          # 开启一个线程接收数据
+            t = threading.Thread(target=self.readDataTh, args=("Data-Received-Thread", 10,))  # Start a thread to receive data
             t.start()
         except SerialException:
-            print("打开" + self.serialConfig.portName + self.serialConfig.baud + "失败")
+            print("Failed to open " + self.serialConfig.portName + " at " + str(self.serialConfig.baud) + " baud")
 
     def closeDevice(self):
         """
-        关闭设备
-        :return: 无返回
+        Close the device
+        :return: None
         """
         if self.serialPort is not None:
             self.serialPort.close()
-            print("端口关闭了")
+            print("Port closed")
         self.isOpen = False
-        print("设备关闭了")
+        print("Device closed")
 
     def onDataReceived(self, data):
         """
-        接收数据时
-        :param data: 收到的数据
-        :return: 无返回
+        When data is received
+        :param data: Received data
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.passiveReceiveData(data, self)
 
-    def get_int(self,dataBytes):
+    def get_int(self, dataBytes):
         """
-        int转换有符号整形   = C# BitConverter.ToInt16
-        :param dataBytes: 字节数组
-        :return:
+        Convert bytes to signed integer = C# BitConverter.ToInt16
+        :param dataBytes: Byte array
+        :return: Converted integer
         """
-        #return -(data & 0x8000) | (data & 0x7fff)
-        return  int.from_bytes(dataBytes, "little", signed=True)
+        return int.from_bytes(dataBytes, "little", signed=True)
 
-    def get_unint(self,dataBytes):
+    def get_unint(self, dataBytes):
         """
-        int转换无符号整形
-        :param data:
-        :return:
+        Convert bytes to unsigned integer
+        :param dataBytes: Byte array
+        :return: Converted integer
         """
-        return  int.from_bytes(dataBytes, "little")
-
+        return int.from_bytes(dataBytes, "little")
 
     def sendData(self, data):
         """
-        发送数据
-        :return: 是否发送成功
+        Send data
+        :return: Success flag
         """
         if self.protocolResolver is not None:
             self.protocolResolver.sendData(data, self)
 
-    def readReg(self, regAddr,regCount):
+    def readReg(self, regAddr, regCount):
         """
-        读取寄存器
-        :param regAddr: 寄存器地址
-        :param regCount: 寄存器个数
-        :return:
+        Read register
+        :param regAddr: Register address
+        :param regCount: Number of registers
+        :return: Read data
         """
         if self.protocolResolver is not None:
-            return self.protocolResolver.readReg(regAddr,regCount, self)
+            return self.protocolResolver.readReg(regAddr, regCount, self)
         else:
-            return none
+            return None
 
-    def writeReg(self, regAddr,sValue):
+    def writeReg(self, regAddr, sValue):
         """
-        写入寄存器
-        :param regAddr: 寄存器地址
-        :param sValue: 写入值
-        :return:
+        Write to register
+        :param regAddr: Register address
+        :param sValue: Value to write
+        :return: None
         """
         if self.protocolResolver is not None:
-            self.protocolResolver.writeReg(regAddr,sValue, self)
+            self.protocolResolver.writeReg(regAddr, sValue, self)
 
     def unlock(self):
         """
-        解锁
-        :return:
+        Unlock
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.unlock(self)
 
     def save(self):
         """
-        保存
-        :return:
+        Save
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.save(self)
 
     def AccelerationCalibration(self):
         """
-        加计校准
-        :return:
+        Acceleration calibration
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.AccelerationCalibration(self)
 
     def BeginFiledCalibration(self):
         """
-        开始磁场校准
-        :return:
+        Start field calibration
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.BeginFiledCalibration(self)
 
     def EndFiledCalibration(self):
         """
-        结束磁场校准
-        :return:
+        End field calibration
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.EndFiledCalibration(self)
 
     def sendProtocolData(self, data):
         """
-        发送带协议的数据
-        :return:
+        Send data with protocol
+        :return: None
         """
         if self.protocolResolver is not None:
             self.protocolResolver.sendData(data)
-
-

@@ -1,13 +1,14 @@
-# coding:UTF-8
-from lib.data_processor.interface.i_data_processor import IDataProcessor
+# coding: UTF-8
+from i_data_processor import IDataProcessor
 
 """
-    JY901S数据处理器
+    JY901S Data Processor
 """
 
 
 class JY901SDataProcessor(IDataProcessor):
     onVarChanged = []
+
     def onOpen(self, deviceModel):
         pass
 

@@ -2,7 +2,7 @@
 from abc import abstractmethod, ABCMeta
 
 """
-协议解析器接口类
+Interface class for protocol resolvers
 """
 
 
@@ -11,8 +11,8 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def setConfig(self, config):
         """
-        设置配置
-        :param config: 配置信息
+        Set configuration
+        :param config: Configuration information
         :return:
         """
         pass
@@ -20,9 +20,9 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def sendData(self, sendData, deviceModel):
         """
-        发送数据
-        :param sendData: 要发送的数据
-        :param deviceModel: 设备模型
+        Send data
+        :param sendData: Data to send
+        :param deviceModel: Device model
         :return:
         """
         pass
@@ -30,10 +30,10 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def readReg(self, regAddr,regCount, deviceModel):
         """
-        读取寄存器
-        :param regAddr: 寄存器地址
-        :param regCount: 寄存器个数
-        :param deviceModel: 设备模型
+        Read register
+        :param regAddr: Register address
+        :param regCount: Number of registers
+        :param deviceModel: Device model
         :return:
         """
         pass
@@ -41,10 +41,10 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def writeReg(self, regAddr,sValue, deviceModel):
         """
-        写入寄存器
-        :param regAddr: 寄存器地址
-        :param sValue: 写入值
-        :param deviceModel: 设备模型
+        Write to register
+        :param regAddr: Register address
+        :param sValue: Value to write
+        :param deviceModel: Device model
         :return:
         """
         pass
@@ -52,7 +52,7 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def passiveReceiveData(self, data, deviceModel):
         """
-        解析主动回传的数据
+        Parse actively transmitted data
         :param data:
         :param deviceModel:
         :return:
@@ -62,7 +62,7 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def unlock(self,deviceModel):
         """
-        解锁
+        Unlock
         :return:
         """
         pass
@@ -70,7 +70,7 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def save(self,deviceModel):
         """
-        保存
+        Save
         :return:
         """
         pass
@@ -78,7 +78,7 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def AccelerationCalibration(self,deviceModel):
         """
-        加计校准
+        Accelerometer calibration
         :return:
         """
         pass
@@ -86,7 +86,7 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def BeginFiledCalibration(self,deviceModel):
         """
-        开始磁场校准
+        Start magnetic field calibration
         :return:
         """
         pass
@@ -94,7 +94,7 @@ class IProtocolResolver(metaclass=ABCMeta):
     @abstractmethod
     def EndFiledCalibration(self,deviceModel):
         """
-        结束磁场校准
+        End magnetic field calibration
         :return:
         """
         pass
