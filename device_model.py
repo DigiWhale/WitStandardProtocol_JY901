@@ -117,7 +117,7 @@ class DeviceModel:
         # Close the port first
         self.closeDevice()
         try:
-            self.serialPort = serial.Serial(self.serialConfig.portName, self.serialConfig.baud, timeout=0.5)
+            self.serialPort = serial.Serial('dev/ttyUSB_witmotion', 9600, timeout=0.5)
             self.isOpen = True
             t = threading.Thread(target=self.readDataTh, args=("Data-Received-Thread", 10,))  # Start a thread to receive data
             t.start()

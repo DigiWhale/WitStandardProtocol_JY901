@@ -142,10 +142,8 @@ if __name__ == '__main__':
         "51_0"
     )
 
-    if (platform.system().lower() == 'linux'):
-        device.serialConfig.portName = "/dev/ttyUSB_witmotion"   
-    else:
-        device.serialConfig.portName = "COM39"          
+
+    device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
     readConfig(device)                                  
