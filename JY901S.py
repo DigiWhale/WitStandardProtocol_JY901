@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     print(welcome)
     device = deviceModel.DeviceModel(
-        "My JY901",
+        "我的JY901",
         WitProtocolResolver(),
         JY901SDataProcessor(),
         "51_0"

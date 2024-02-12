@@ -4,7 +4,6 @@ import _thread
 import time
 import struct
 import serial
-from serial import SerialException
 
 '''
     Serial Configuration
@@ -43,7 +42,7 @@ class DeviceModel:
     serialConfig = SerialConfig()
 
     # Update Trigger
-    dataUpdateListener = ""
+    dataUpdateListener = "51_0"
 
     # Data Processor
     dataProcessor = None
@@ -121,7 +120,7 @@ class DeviceModel:
             self.isOpen = True
             t = threading.Thread(target=self.readDataTh, args=("Data-Received-Thread", 10,))  # Start a thread to receive data
             t.start()
-        except SerialException:
+        except serial.SerialException:
             print("Failed to open " + self.serialConfig.portName + " at " + str(self.serialConfig.baud) + " baud")
 
     def closeDevice(self):
