@@ -119,7 +119,7 @@ def startRecord():
     Tempstr += "\tq1\tq2\tq3\tq4"
     Tempstr += "\r\n"
     _writeF.write(Tempstr)
-    print("Start recording data")
+    print("Start recording data", Tempstr)
 
 def endRecord():
     """
