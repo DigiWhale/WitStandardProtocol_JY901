@@ -13,7 +13,7 @@ from serial import SerialException
 
 class SerialConfig:
     # Port
-    portName = ''
+    portName = '/dev/ttyUSB_witmotion'
 
     # Baud rate
     baud = 9600
