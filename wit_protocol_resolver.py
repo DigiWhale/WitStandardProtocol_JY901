@@ -267,7 +267,7 @@ class WitProtocolResolver(IProtocolResolver):
         :param deviceModel: Device model
         :return:
         """
-        print("Read register: " + str(regAddr) + " " + str(regCount)
+        print("Read register: " + str(regAddr) + " " + str(regCount))
         tempResults = []  # Return data
         readCount = int(regCount / 4)  # Get the number of reads based on the number of registers
         if (regCount % 4 > 0):
