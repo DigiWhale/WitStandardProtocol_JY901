@@ -7,9 +7,9 @@ import time
 import datetime
 import platform
 import struct
-import lib.device_model as deviceModel
-from lib.data_processor.roles.jy901s_dataProcessor import JY901SDataProcessor
-from lib.protocol_resolver.roles.wit_protocol_resolver import WitProtocolResolver
+import device_model as deviceModel
+from jy901s_dataProcessor import JY901SDataProcessor
+from wit_protocol_resolver import WitProtocolResolver
 
 welcome = """
 欢迎使用维特智能示例程序    Welcome to the Wit-Motoin sample program
