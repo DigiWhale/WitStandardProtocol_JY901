@@ -1,96 +1,94 @@
-# coding: UTF-8
+# coding:UTF-8
 import time
 from i_protocol_resolver import IProtocolResolver
 
 """
-    Wit Protocol Resolver
+    维特协议解析器
 """
 
-
 class WitProtocolResolver(IProtocolResolver):
-    TempBytes = []         # Temporary data list
-    PackSize = 11        # Size of one packet of data
-    gyroRange = 2000.0   # Gyroscope range
-    accRange = 16.0      # Acceleration range
-    angleRange = 180.0   # Angle range
-    TempFindValues = []    # Data returned when reading specific registers
+    TempBytes=[]         # 临时数据列表
+    PackSize = 11        # 一包数据大小
+    gyroRange = 2000.0   # 角速度量程
+    accRange = 16.0      # 加速度量程
+    angleRange = 180.0   # 角度量程
+    TempFindValues=[]    # 读取指定寄存器返回的数据
 
     def setConfig(self, deviceModel):
         pass
 
     def sendData(self, sendData, deviceModel):
         success_bytes = deviceModel.serialPort.write(sendData)
-
     def passiveReceiveData(self, data, deviceModel):
         """
-        Process received data
-        :param data: Serial data
-        :param deviceModel: Device model
+        接收数据处理
+        :param data: 串口数据
+        :param deviceModel: 设备模型
         :return:
         """
         global TempBytes
         for val in data:
             self.TempBytes.append(val)
-            if self.TempBytes[0] != 0x55:  # Not starting with identifier 0x55
-                del self.TempBytes[0]  # Remove the first byte
+            if (self.TempBytes[0]!=0x55):                   #非标识符0x55开头的
+                del self.TempBytes[0]                       #去除第一个字节
                 continue
-            if len(self.TempBytes) > 1:
-                if not (0x50 <= self.TempBytes[1] - 0x50 <= 11) or self.TempBytes[1] == 0x5f:  # Second byte value not in the range 0x50~0x5a or not equal to 0x5f
-                    del self.TempBytes[0]  # Remove the first byte
+            if (len(self.TempBytes)>1):
+                if (((self.TempBytes[1] - 0x50 >=0 and self.TempBytes[1] - 0x50 <=11) or self.TempBytes[1]==0x5f)==False):   #第二个字节数值不在0x50~0x5a范围或者不等于0x5f
+                    del self.TempBytes[0]                   #去除第一个字节
                     continue
-            if len(self.TempBytes) == self.PackSize:  # Indicates the size of one packet of data
-                CheckSum = 0  # Sum check
-                for i in range(0, self.PackSize - 1):
-                    CheckSum += self.TempBytes[i]
-                if CheckSum & 0xff == self.TempBytes[self.PackSize - 1]:  # Check passed
-                    if self.TempBytes[1] == 0x50:  # Chip time packet
-                        self.get_chiptime(self.TempBytes, deviceModel)  # Calculate chip time data
-                    elif self.TempBytes[1] == 0x51:  # Acceleration packet
-                        self.get_acc(self.TempBytes, deviceModel)  # Calculate acceleration data
-                    elif self.TempBytes[1] == 0x52:  # Gyroscope packet
-                        self.get_gyro(self.TempBytes, deviceModel)  # Calculate gyroscope data
-                    elif self.TempBytes[1] == 0x53:  # Angle packet
-                        self.get_angle(self.TempBytes, deviceModel)  # Calculate angle data
-                    elif self.TempBytes[1] == 0x54:  # Magnetic field packet
-                        self.get_mag(self.TempBytes, deviceModel)  # Calculate magnetic field data
-                        deviceModel.dataProcessor.onUpdate(deviceModel)  # Trigger data update event
-                    elif self.TempBytes[1] == 0x57:  # Longitude and latitude packet
-                        self.get_lonlat(self.TempBytes, deviceModel)  # Calculate longitude and latitude data
-                        deviceModel.dataProcessor.onUpdate(deviceModel)  # Trigger data update event
-                    elif self.TempBytes[1] == 0x58:  # GPS packet
-                        self.get_gps(self.TempBytes, deviceModel)  # Calculate GPS data
-                        deviceModel.dataProcessor.onUpdate(deviceModel)  # Trigger data update event
-                    elif self.TempBytes[1] == 0x59:  # Quaternion packet
-                        self.get_four_elements(self.TempBytes, deviceModel)  # Calculate quaternion data
-                        deviceModel.dataProcessor.onUpdate(deviceModel)  # Trigger data update event
-                    elif self.TempBytes[1] == 0x5f:  # Return reading of specified register
-                        self.get_find(self.TempBytes, deviceModel)
-                    self.TempBytes = []  # Clear data
-                else:  # Check failed
-                    del self.TempBytes[0]  # Remove the first byte
+            if (len(self.TempBytes) == self.PackSize):      #表示一个包的数据大小
+                CheckSum = 0                                #求和校验位
+                for i in range(0,self.PackSize-1):
+                    CheckSum+=self.TempBytes[i]
+                if (CheckSum&0xff==self.TempBytes[self.PackSize-1]):  #校验和通过
+                    if (self.TempBytes[1] == 0x50):                   #芯片时间包
+                        self.get_chiptime(self.TempBytes, deviceModel) #结算芯片时间数据
+                    elif (self.TempBytes[1]==0x51):                    #加速度包
+                        self.get_acc(self.TempBytes,deviceModel)       #结算加速度数据
+                    elif(self.TempBytes[1]==0x52):                    #角速度包
+                        self.get_gyro(self.TempBytes,deviceModel)     #结算角速度数据
+                    elif(self.TempBytes[1]==0x53):                    #角度包
+                        self.get_angle(self.TempBytes,deviceModel)    #结算角度数据
+                    elif(self.TempBytes[1]==0x54):                    #磁场包
+                        self.get_mag(self.TempBytes, deviceModel)     #结算磁场数据
+                        deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
+                    elif(self.TempBytes[1]==0x57):                    #经纬度包
+                        self.get_lonlat(self.TempBytes, deviceModel)     #结算经纬度数据
+                        deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
+                    elif(self.TempBytes[1]==0x58):                    #gps包
+                        self.get_gps(self.TempBytes, deviceModel)     #结算gps数据
+                        deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
+                    elif(self.TempBytes[1]==0x59):                    #四元素包
+                        self.get_four_elements(self.TempBytes, deviceModel)     #结算四元素数据
+                        deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
+                    elif(self.TempBytes[1]==0x5f):           #返回读取指定的寄存器
+                        self.get_find(self.TempBytes,deviceModel)
+                    self.TempBytes=[]                        #清除数据
+                else:                                        #校验和未通过
+                    del self.TempBytes[0]                    # 去除第一个字节
 
-    def get_readbytes(self, regAddr):
+    def get_readbytes(self,regAddr):
         """
-        Get the read instruction
-        :param regAddr: Register address
+        获取读取的指令
+        :param regAddr: 寄存器地址
         :return:
         """
-        return [0xff, 0xaa, 0x27, regAddr & 0xff, regAddr >> 8]
+        return [0xff, 0xaa,0x27, regAddr & 0xff, regAddr >> 8]
 
-    def get_writebytes(self, regAddr, sValue):
+    def get_writebytes(self,regAddr,sValue):
         """
-        Get the write instruction
-        :param regAddr: Register address
-        :param sValue: Value to write
+        获取写入的指令
+        :param regAddr: 寄存器地址
+        :param sValue: 写入的值
         :return:
         """
         return [0xff, 0xaa, regAddr, sValue & 0xff, sValue >> 8]
 
-    def get_acc(self, datahex, deviceModel):
+    def get_acc(self,datahex, deviceModel):
         """
-        Acceleration and temperature calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        加速度、温度结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
         axl = datahex[2]
@@ -111,17 +109,17 @@ class WitProtocolResolver(IProtocolResolver):
         if acc_z >= self.accRange:
             acc_z -= 2 * self.accRange
 
-        deviceModel.setDeviceData("accX", round(acc_x, 4))  # Assign acceleration X to device model
-        deviceModel.setDeviceData("accY", round(acc_y, 4))  # Assign acceleration Y to device model
-        deviceModel.setDeviceData("accZ", round(acc_z, 4))  # Assign acceleration Z to device model
-        temperature = round(tempVal / 100.0, 2)  # Calculate temperature and keep two decimal places
-        deviceModel.setDeviceData("temperature", temperature)  # Assign temperature to device model
+        deviceModel.setDeviceData("accX", round(acc_x, 4))     # 设备模型加速度X赋值
+        deviceModel.setDeviceData("accY", round(acc_y, 4))     # 设备模型加速度Y赋值
+        deviceModel.setDeviceData("accZ", round(acc_z, 4))     # 设备模型加速度Z赋值
+        temperature = round(tempVal / 100.0, 2)                                           # 温度结算,并保留两位小数
+        deviceModel.setDeviceData("temperature", temperature)                             # 设备模型温度赋值
 
-    def get_gyro(self, datahex, deviceModel):
+    def get_gyro(self,datahex, deviceModel):
         """
-        Gyroscope calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        角速度结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
         wxl = datahex[2]
@@ -141,15 +139,15 @@ class WitProtocolResolver(IProtocolResolver):
         if gyro_z >= self.gyroRange:
             gyro_z -= 2 * self.gyroRange
 
-        deviceModel.setDeviceData("gyroX", round(gyro_x, 4))  # Assign gyroscope X to device model
-        deviceModel.setDeviceData("gyroY", round(gyro_y, 4))  # Assign gyroscope Y to device model
-        deviceModel.setDeviceData("gyroZ", round(gyro_z, 4))  # Assign gyroscope Z to device model
+        deviceModel.setDeviceData("gyroX", round(gyro_x, 4))  # 设备模型角速度X赋值
+        deviceModel.setDeviceData("gyroY", round(gyro_y, 4))  # 设备模型角速度Y赋值
+        deviceModel.setDeviceData("gyroZ", round(gyro_z, 4))  # 设备模型角速度Z赋值
 
-    def get_angle(self, datahex, deviceModel):
+    def get_angle(self,datahex, deviceModel):
         """
-        Angle calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        角度结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
         rxl = datahex[2]
@@ -169,118 +167,116 @@ class WitProtocolResolver(IProtocolResolver):
         if angle_z >= self.angleRange:
             angle_z -= 2 * self.angleRange
 
-        deviceModel.setDeviceData("angleX", round(angle_x, 3))  # Assign angle X to device model
-        deviceModel.setDeviceData("angleY", round(angle_y, 3))  # Assign angle Y to device model
-        deviceModel.setDeviceData("angleZ", round(angle_z, 3))  # Assign angle Z to device model
+        deviceModel.setDeviceData("angleX", round(angle_x, 3))  # 设备模型角度X赋值
+        deviceModel.setDeviceData("angleY", round(angle_y, 3))  # 设备模型角度Y赋值
+        deviceModel.setDeviceData("angleZ", round(angle_z, 3))  # 设备模型角度Z赋值
 
-    def get_mag(self, datahex, deviceModel):
+    def get_mag(self,datahex, deviceModel):
         """
-        Magnetic field calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        磁场结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
-        _x = deviceModel.get_int(bytes([datahex[2], datahex[3]]))
-        _y = deviceModel.get_int(bytes([datahex[4], datahex[5]]))
-        _z = deviceModel.get_int(bytes([datahex[6], datahex[7]]))
+        _x = deviceModel.get_int(bytes([datahex[2],datahex[3]]))
+        _y = deviceModel.get_int(bytes([datahex[4],datahex[5]]))
+        _z = deviceModel.get_int(bytes([datahex[6],datahex[7]]))
 
-        deviceModel.setDeviceData("magX", round(_x, 0))  # Assign magnetic field X to device model
-        deviceModel.setDeviceData("magY", round(_y, 0))  # Assign magnetic field Y to device model
-        deviceModel.setDeviceData("magZ", round(_z, 0))  # Assign magnetic field Z to device model
+        deviceModel.setDeviceData("magX", round(_x, 0))   # 设备模型磁场X赋值
+        deviceModel.setDeviceData("magY", round(_y, 0))   # 设备模型磁场Y赋值
+        deviceModel.setDeviceData("magZ", round(_z, 0))   # 设备模型磁场Z赋值
 
-    def get_lonlat(self, datahex, deviceModel):
+    def get_lonlat(self,datahex, deviceModel):
         """
-        Longitude and latitude calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        经纬度结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
 
-        lon = deviceModel.get_unint(bytes([datahex[2], datahex[3], datahex[4], datahex[5]]))
-        lat = deviceModel.get_unint(bytes([datahex[6], datahex[7], datahex[8], datahex[9]]))
+        lon = deviceModel.get_unint(bytes([datahex[2],datahex[3],datahex[4],datahex[5]]))
+        lat = deviceModel.get_unint(bytes([datahex[6],datahex[7],datahex[8],datahex[9]]))
+        #(lon / 10000000 + ((double)(lon % 10000000) / 1e5 / 60.0)).ToString("f8")
         tlon = lon / 10000000.0
         tlat = lat / 10000000.0
-        deviceModel.setDeviceData("lon", round(tlon, 8))  # Assign longitude to device model
-        deviceModel.setDeviceData("lat", round(tlat, 8))  # Assign latitude to device model
+        deviceModel.setDeviceData("lon", round(tlon, 8))   # 设备模型经度赋值
+        deviceModel.setDeviceData("lat", round(tlat, 8))   # 设备模型纬度赋值
 
-    def get_gps(self, datahex, deviceModel):
+    def get_gps(self,datahex, deviceModel):
         """
-        GPS calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        GPS结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
-        Height = deviceModel.get_int(bytes([datahex[2], datahex[3]])) / 10.0  # Height
-        Yaw = deviceModel.get_int(bytes([datahex[4], datahex[5]])) / 100.0  # Yaw angle
-        Speed = deviceModel.get_unint(
-            bytes([datahex[6], datahex[7], datahex[8], datahex[9]])) / 1e3  # Nautical miles
+        Height = deviceModel.get_int(bytes([datahex[2],datahex[3]])) / 10.0   #高度
+        Yaw = deviceModel.get_int(bytes([datahex[4],datahex[5]])) / 100.0     #航向角
+        Speed = deviceModel.get_unint(bytes([datahex[6],datahex[7],datahex[8],datahex[9]])) / 1e3            #海里
 
-        deviceModel.setDeviceData("Height", round(Height, 3))  # Assign height to device model
-        deviceModel.setDeviceData("Yaw", round(Yaw, 2))  # Assign yaw angle to device model
-        deviceModel.setDeviceData("Speed", round(Speed, 3))  # Assign speed to device model
+        deviceModel.setDeviceData("Height", round(Height, 3))   # 设备模型高度赋值
+        deviceModel.setDeviceData("Yaw", round(Yaw, 2))   # 设备模型航向角赋值
+        deviceModel.setDeviceData("Speed", round(Speed, 3))   # 设备模型速度赋值
 
-    def get_four_elements(self, datahex, deviceModel):
+    def get_four_elements(self,datahex, deviceModel):
         """
-        Quaternion calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        四元素结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
-        q1 = deviceModel.get_int(bytes([datahex[2], datahex[3]])) / 32768.0
-        q2 = deviceModel.get_int(bytes([datahex[4], datahex[5]])) / 32768.0
-        q3 = deviceModel.get_int(bytes([datahex[6], datahex[7]])) / 32768.0
-        q4 = deviceModel.get_int(bytes([datahex[8], datahex[9]])) / 32768.0
+        q1 = deviceModel.get_int(bytes([datahex[2],datahex[3]])) / 32768.0
+        q2 = deviceModel.get_int(bytes([datahex[4],datahex[5]])) / 32768.0
+        q3 = deviceModel.get_int(bytes([datahex[6],datahex[7]])) / 32768.0
+        q4 = deviceModel.get_int(bytes([datahex[8],datahex[9]])) / 32768.0
 
-        deviceModel.setDeviceData("q1", round(q1, 5))  # Assign element 1 to device model
-        deviceModel.setDeviceData("q2", round(q2, 5))  # Assign element 2 to device model
-        deviceModel.setDeviceData("q3", round(q3, 5))  # Assign element 3 to device model
-        deviceModel.setDeviceData("q4", round(q4, 5))  # Assign element 4 to device model
+        deviceModel.setDeviceData("q1", round(q1, 5))   # 设备模型元素1赋值
+        deviceModel.setDeviceData("q2", round(q2, 5))   # 设备模型元素2赋值
+        deviceModel.setDeviceData("q3", round(q3, 5))   # 设备模型元素3赋值
+        deviceModel.setDeviceData("q4", round(q4, 5))  # 设备模型元素4赋值
 
-    def get_chiptime(self, datahex, deviceModel):
+    def get_chiptime(self,datahex, deviceModel):
         """
-        Chip time calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        芯片时间结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
-        tempVals = []  # Temporary calculation data
-        for i in range(0, 4):
+        tempVals = []      #临时结算数据
+        for i in range(0,4):
             tIndex = 2 + i * 2
-            tempVals.append(datahex[tIndex + 1] << 8 | datahex[tIndex])
+            tempVals.append(datahex[tIndex+1] << 8 | datahex[tIndex])
 
-        _year = 2000 + (tempVals[0] & 0xff)  # Year
-        _moth = ((tempVals[0] >> 8) & 0xff)  # Month
-        _day = (tempVals[1] & 0xff)  # Day
-        _hour = ((tempVals[1] >> 8) & 0xff)  # Hour
-        _minute = (tempVals[2] & 0xff)  # Minute
-        _second = ((tempVals[2] >> 8) & 0xff)  # Second
-        _millisecond = tempVals[3]  # Millisecond
+        _year = 2000 + (tempVals[0] & 0xff)      # 年
+        _moth = ((tempVals[0] >> 8) & 0xff)      # 月
+        _day = (tempVals[1] & 0xff)              # 日
+        _hour = ((tempVals[1] >> 8) & 0xff)      # 时
+        _minute = (tempVals[2] & 0xff)           # 分
+        _second = ((tempVals[2] >> 8) & 0xff)    # 秒
+        _millisecond = tempVals[3]               # 毫秒
         deviceModel.setDeviceData("Chiptime",
                                   str(_year) + "-" + str(_moth) + "-" + str(_day) + " " + str(_hour) + ":" + str(
-                                      _minute) + ":" + str(_second) + "." + str(_millisecond))  # Assign chip time to device model
+                                      _minute) + ":" + str(_second) + "." + str(_millisecond))  # 设备模型芯片时间赋值
 
-    def readReg(self, regAddr, regCount, deviceModel):
+    def readReg(self, regAddr,regCount, deviceModel):
         """
-        Read register
-        :param regAddr: Register address
-        :param regCount: Number of registers
-        :param deviceModel: Device model
+        读取寄存器
+        :param regAddr: 寄存器地址
+        :param regCount: 寄存器个数
+        :param deviceModel: 设备模型
         :return:
         """
-        print("Read register: " + str(regAddr) + " " + str(regCount))
-        tempResults = []  # Return data
-        readCount = int(regCount / 4)  # Get the number of reads based on the number of registers
-        if (regCount % 4 > 0):
-            readCount += 1
-        for n in range(0, readCount):
-            self.TempFindValues = []  # Clear data
-            tempBytes = self.get_readbytes(regAddr + n * 4)  # Get read instruction
-            print("Read register: " + str(tempBytes))
-            success_bytes = deviceModel.serialPort.write(tempBytes)  # Write data
-            for i in range(0, 20):  # Set timeout 1 second
-                time.sleep(0.05)  # Sleep 50 milliseconds
-                if (len(self.TempFindValues) > 0):  # The value of the specified register has been returned
-                    for j in range(0, len(self.TempFindValues)):
+        tempResults = []                      #返返数据
+        readCount = int(regCount/4)           #根据寄存器个数获取读取次数
+        if (regCount % 4>0):
+            readCount+=1
+        for n in range(0,readCount):
+            self.TempFindValues = []  # 清除数据
+            tempBytes = self.get_readbytes(regAddr + n * 4)             # 获取读取的指令
+            success_bytes = deviceModel.serialPort.write(tempBytes)     #写入数据
+            for i in range(0,20): #设置超时1秒
+                time.sleep(0.05)  # 休眠50毫秒
+                if (len(self.TempFindValues)>0):    #已返回所找查的寄存器的值
+                    for j in range(0,len(self.TempFindValues)):
                         if (len(tempResults) < regCount):
                             tempResults.append(self.TempFindValues[j])
                         else:
@@ -288,72 +284,72 @@ class WitProtocolResolver(IProtocolResolver):
                     break
         return tempResults
 
-    def writeReg(self, regAddr, sValue, deviceModel):
+    def writeReg(self, regAddr,sValue, deviceModel):
         """
-        Write register
-        :param regAddr: Register address
-        :param sValue: Value to be written
-        :param deviceModel: Device model
+        写入寄存器
+        :param regAddr: 寄存器地址
+        :param sValue: 写入值
+        :param deviceModel: 设备模型
         :return:
         """
-        tempBytes = self.get_writebytes(regAddr, sValue)  # Get write instruction
-        success_bytes = deviceModel.serialPort.write(tempBytes)  # Write register
-
+        tempBytes = self.get_writebytes(regAddr,sValue)                  #获取写入指令
+        success_bytes = deviceModel.serialPort.write(tempBytes)          #写入寄存器
     def unlock(self, deviceModel):
         """
-        Unlock
+        解锁
         :return:
         """
-        tempBytes = self.get_writebytes(0x69, 0xb588)  # Get write instruction
-        success_bytes = deviceModel.serialPort.write(tempBytes)  # Write register
+        tempBytes = self.get_writebytes(0x69, 0xb588)                    #获取写入指令
+        success_bytes = deviceModel.serialPort.write(tempBytes)          #写入寄存器
 
     def save(self, deviceModel):
         """
-        Save
-        :param deviceModel: Device model
+        保存
+        :param deviceModel: 设备模型
         :return:
         """
-        tempBytes = self.get_writebytes(0x00, 0x00)  # Get write instruction
-        success_bytes = deviceModel.serialPort.write(tempBytes)  # Write register
+        tempBytes = self.get_writebytes(0x00, 0x00)                      #获取写入指令
+        success_bytes = deviceModel.serialPort.write(tempBytes)          #写入寄存器
 
-    def AccelerationCalibration(self, deviceModel):
+    def AccelerationCalibration(self,deviceModel):
         """
-        Acceleration calibration
-        :param deviceModel: Device model
+        加计校准
+        :param deviceModel: 设备模型
         :return:
         """
-        self.unlock(deviceModel)  # Unlock
-        time.sleep(0.1)  # Sleep 100 milliseconds
-        tempBytes = self.get_writebytes(0x01, 0x01)  # Get write instruction
-        success_bytes = deviceModel.serialPort.write(tempBytes)  # Write register
-        time.sleep(5.5)  # Sleep 5500 milliseconds
+        self.unlock(deviceModel)                                         # 解锁
+        time.sleep(0.1)                                                  # 休眠100毫秒
+        tempBytes = self.get_writebytes(0x01, 0x01)                      # 获取写入指令
+        success_bytes = deviceModel.serialPort.write(tempBytes)          # 写入寄存器
+        time.sleep(5.5)                                                  # 休眠5500毫秒
 
-    def BeginFiledCalibration(self, deviceModel):
+    def BeginFiledCalibration(self,deviceModel):
         """
-        Start field calibration
-        :param deviceModel: Device model
+        开始磁场校准
+        :param deviceModel: 设备模型
         :return:
         """
-        self.unlock(deviceModel)  # Unlock
-        time.sleep(0.1)  # Sleep 100 milliseconds
-        tempBytes = self.get_writebytes(0x01, 0x07)  # Get write instruction for magnetic field calibration
-        success_bytes = deviceModel.serialPort.write(tempBytes)  # Write register
+        self.unlock(deviceModel)                                         # 解锁
+        time.sleep(0.1)                                                  # 休眠100毫秒
+        tempBytes = self.get_writebytes(0x01, 0x07)                      # 获取写入指令 磁场校准
+        success_bytes = deviceModel.serialPort.write(tempBytes)          # 写入寄存器
 
-    def EndFiledCalibration(self, deviceModel):
+
+    def EndFiledCalibration(self,deviceModel):
         """
-        End field calibration
-        :param deviceModel: Device model
+        结束磁场校准
+        :param deviceModel: 设备模型
         :return:
         """
-        self.unlock(deviceModel)  # Unlock
-        time.sleep(0.1)  # Sleep 100 milliseconds
-        self.save(deviceModel)  # Save
+        self.unlock(deviceModel)                                         # 解锁
+        time.sleep(0.1)                                                  # 休眠100毫秒
+        self.save(deviceModel)                                           #保存
 
-    def get_find(self, datahex, deviceModel):
+    def get_find(self,datahex, deviceModel):
         """
-        Read specified register calculation
-        :param datahex: Raw data packet
-        :param deviceModel: Device model
+        读取指定寄存器结算
+        :param datahex: 原始始数据包
+        :param deviceModel: 设备模型
         :return:
         """
         t0l = datahex[2]
@@ -369,4 +365,4 @@ class WitProtocolResolver(IProtocolResolver):
         val1 = (t1h << 8 | t1l)
         val2 = (t2h << 8 | t2l)
         val3 = (t3h << 8 | t3l)
-        self.TempFindValues.extend([val0, val1, val2, val3])
+        self.TempFindValues.extend([val0,val1,val2,val3])
