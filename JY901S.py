@@ -271,7 +271,7 @@ class WitProtocolResolver():
                         else:
                             break
                     break
-        return [tempResults[0], bin(tempResults[0] & 0xFFFF), hex(tempResults[0] & 0xFFFF)]
+        return [tempResults[0], format(tempResults[0] & 0xFFFF, '016b'), hex(tempResults[0] & 0xFFFF)]
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
