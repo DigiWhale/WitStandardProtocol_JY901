@@ -637,7 +637,7 @@ def setConfig(device):
     # set gyro static threshold
     print(RED + "Setting gyro static threshold" + RESET)
     error = device.readReg(0x6A, 2, "WERROR")
-    werror = round((error[1]/1000*180/3.1415926)*1.2, 2)
+    werror = round((error[1]/1000)*1.2, 2)
     hexwerror = hex(struct.unpack('<I', struct.pack('<f', werror))[0])
     print("WERROR: ", hexwerror)
     device.writeReg(0x61, hexwerror)
