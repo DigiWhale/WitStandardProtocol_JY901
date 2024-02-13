@@ -549,11 +549,11 @@ def readConfig(device, regAddr, regCount):
     time.sleep(0.1)
     if (len(tVals) > 0):
         print("Binary: ", [bin(int(hex(byte), 16)) for byte in tVals])
-        print("Hex: ", [hex(byte) for byte in tVals])
+        print("Hex: ", [f"0x{byte:02X}" for byte in tVals])
         print("Raw: ", tVals)
     else:
         print("No response")
-    return hex(tVals[0])
+    return f"0x{tVals[0]:02X}"
     # tVals = device.readReg(0x23, 2)
     # if (len(tVals) > 0):
     #     print("Resultz: " + str(tVals))
