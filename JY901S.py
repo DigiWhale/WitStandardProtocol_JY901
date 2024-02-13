@@ -603,9 +603,9 @@ def set_compass_data_mode(device):
     PORT =  1
     PRESS =  1
     GPS =  1
-    VELOCITY =  1
-    QUATER =  1
-    BGSA =  1
+    VELOCITY =  0
+    QUATER =  0
+    BGSA =  0
     
     # Convert to binary string
     binary_string = f"{BGSA}{QUATER}{VELOCITY}{GPS}{PRESS}{PORT}{MAG}{ANGLE}{GYRO}{ACC}{TIME}"
