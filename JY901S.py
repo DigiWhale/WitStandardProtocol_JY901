@@ -577,6 +577,12 @@ def setConfig(device):
     :param device: Device model
     :return:
     """
+    import sys
+    
+    # ANSI escape sequence for red color
+    RED = '\033[91m'
+    RESET = '\033[0m'  # Reset color to default
+    
     TIME =  0
     ACC =  1
     GYRO =  1
@@ -597,40 +603,41 @@ def setConfig(device):
     device.unlock()
     time.sleep(0.1)
     # set output to 200hz
-    print("Setting output to 200hz")
+    print(RED + "Setting output to 200hz" + RESET)
     device.writeReg(0x03, 0x0B)
     time.sleep(0.1)
     # enable messages 
-    print("Enabling messages")
+    print(RED + "Enabling messages" + RESET)
     device.writeReg(0x02, hex_to_int)
     time.sleep(0.1)
     # set to horizontal orientation
-    print("Setting to horizontal orientation")
+    print(RED + "Setting to horizontal orientation" + RESET)
     device.writeReg(0x23, 0)
     time.sleep(0.1)
     # set to 9-axis mode
-    print("Setting to 9-axis mode")
+    print(RED + "Setting to 9-axis mode" + RESET)
     device.writeReg(0x24, 0)
     time.sleep(0.1)
     # set k-value to 30, Range: 1~10000, default 30 (modification is not recommended)
-    print("Setting k-value to 30")
+    print(RED + "Setting k-value to 30" + RESET)
     device.writeReg(0x25, 0x1E)
     time.sleep(0.1)
     # set acceleration filter to 500
-    print("Setting acceleration filter to 500")
+    print(RED + "Setting acceleration filter to 500" + RESET)
     device.writeReg(0x2A, 0xF401)
     time.sleep(0.1)
     # set to send data on power on
-    print("Setting to send data on power on")
+    print(RED + "Setting to send data on power on" + RESET)
     device.writeReg(0x2D, 1)
     time.sleep(0.1)
-    # set gyro static threshhold
-    print("Setting gyro static threshhold")
+    # set gyro static threshold
+    print(RED + "Setting gyro static threshold" + RESET)
     device.writeReg(0x61, 50)
     time.sleep(0.1)
     
     device.save()
     time.sleep(0.1)
+
 
 def AccelerationCalibration(device):
     """
