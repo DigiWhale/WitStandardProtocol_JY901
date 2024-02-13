@@ -605,38 +605,38 @@ def setConfig(device):
     # Generate the full command
     hex_to_int = int(hex_value, 16)
     device.unlock()
-    time.sleep(0.1)
+    time.sleep(0.5)
     # set output to 200hz
     print(RED + "Setting output to 200hz" + RESET)
     device.writeReg(0x03, 0x0B)
-    time.sleep(0.1)
+    time.sleep(0.5)
     # enable messages 
     print(RED + "Enabling messages" + RESET)
     device.writeReg(0x02, hex_to_int)
-    time.sleep(0.1)
+    time.sleep(0.5)
     # set to horizontal orientation
     print(RED + "Setting to horizontal orientation" + RESET)
     device.writeReg(0x23, 0)
-    time.sleep(0.1)
+    time.sleep(0.5)
     # set to 9-axis mode
     print(RED + "Setting to 9-axis mode" + RESET)
     device.writeReg(0x24, 0)
-    time.sleep(0.1)
+    time.sleep(0.5)
     # set k-value to 30, Range: 1~10000, default 30 (modification is not recommended)
     print(RED + "Setting k-value to 30" + RESET)
     device.writeReg(0x25, 0x1E)
-    time.sleep(0.1)
+    time.sleep(0.5)
     # set acceleration filter to 500
     print(RED + "Setting acceleration filter to 500" + RESET)
     device.writeReg(0x2A, 0xF401)
-    time.sleep(0.1)
+    time.sleep(0.5)
     # set to send data on power on
     print(RED + "Setting to send data on power on" + RESET)
     device.writeReg(0x2D, 1)
-    time.sleep(0.1)
+    time.sleep(0.5)
     print(RED + "Saving..." + RESET)
     device.save()
-    time.sleep(0.1)
+    time.sleep(0.5)
     print(GREEN + "#"*50 + RESET)
 
 
