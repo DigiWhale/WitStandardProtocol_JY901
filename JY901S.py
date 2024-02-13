@@ -3,6 +3,7 @@ import time
 import threading
 import serial
 import math
+import os
 
 class WitProtocolResolver():
     TempBytes=[]        
@@ -578,6 +579,8 @@ def onUpdate(deviceModel):
     :return:
     """
     try:
+        # Clear the terminal screen
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Temperature: {:.2f}".format(deviceModel.getDeviceData("temperature")))
         print("Acceleration: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("accX"),deviceModel.getDeviceData("accY"),deviceModel.getDeviceData("accZ")))
         print("Angular velocity: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("gyroX"),deviceModel.getDeviceData("gyroY"),deviceModel.getDeviceData("gyroZ")))
