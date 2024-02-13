@@ -565,6 +565,7 @@ def setConfig(device):
     device.writeReg(0x24, 1)
     time.sleep(0.1)
     device.save()
+    time.sleep(0.1)
     
 def set_compass_data_mode(device):
     TIME =  0
