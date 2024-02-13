@@ -577,11 +577,14 @@ def setConfig(device):
     :param device: Device model
     :return:
     """
-    import sys
+    
     
     # ANSI escape sequence for red color
     RED = '\033[91m'
+    GREEN = '\033[92m'
     RESET = '\033[0m'  # Reset color to default
+    
+    print(GREEN + "#"*50 + RESET)
     
     TIME =  0
     ACC =  1
@@ -634,9 +637,10 @@ def setConfig(device):
     print(RED + "Setting gyro static threshold" + RESET)
     device.writeReg(0x61, 50)
     time.sleep(0.1)
-    
+    print(RED + "Saaving..." + RESET)
     device.save()
     time.sleep(0.1)
+    print(GREEN + "#"*50 + RESET)
 
 
 def AccelerationCalibration(device):
