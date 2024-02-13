@@ -655,7 +655,7 @@ if __name__ == '__main__':
     compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     compass.serialConfig.baud = 9600                     
     compass.openDevice()
-    set_compass_data_mode(compass)
+    # set_compass_data_mode(compass)
     setConfig(compass)  
     print("#" * 50)                                 
     readConfig(compass, 0x01, 1)
