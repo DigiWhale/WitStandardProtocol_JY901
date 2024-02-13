@@ -76,9 +76,9 @@ class WitProtocolResolver():
         azh = datahex[7]
 
         tempVal = (datahex[9] << 8 | datahex[8])
-        acc_x = (axh << 8 | axl) / 32768.0 * self.accRange
-        acc_y = (ayh << 8 | ayl) / 32768.0 * self.accRange
-        acc_z = (azh << 8 | azl) / 32768.0 * self.accRange
+        acc_x = (axh << 8 | axl) / 32768.0 * self.accRange * 9.8
+        acc_y = (ayh << 8 | ayl) / 32768.0 * self.accRange * 9.8
+        acc_z = (azh << 8 | azl) / 32768.0 * self.accRange * 9.8
         if acc_x >= self.accRange:
             acc_x -= 2 * self.accRange
         if acc_y >= self.accRange:
@@ -149,9 +149,9 @@ class WitProtocolResolver():
             # Get magnetometer and accelerometer data
             mag_x = deviceModel.getDeviceData("magX")
             mag_y = deviceModel.getDeviceData("magY")
-            acc_x = deviceModel.getDeviceData("accX") * 9.8
-            acc_y = deviceModel.getDeviceData("accY") * 9.8
-            acc_z = deviceModel.getDeviceData("accZ") * 9.8
+            acc_x = deviceModel.getDeviceData("accX")
+            acc_y = deviceModel.getDeviceData("accY")
+            acc_z = deviceModel.getDeviceData("accZ")
             # Calculate tilt-compensated heading
             tilt_heading = math.atan2(mag_y, mag_x)
             pitch = math.atan2(acc_x, math.sqrt(acc_y**2 + acc_z**2))
