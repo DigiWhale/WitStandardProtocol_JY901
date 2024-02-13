@@ -1,18 +1,10 @@
 # coding: UTF-8
-"""
-Test file
-"""
 import time
 import datetime
-import platform
-import struct
 import device_model as deviceModel
 from jy901s_dataProcessor import JY901SDataProcessor
 from wit_protocol_resolver import WitProtocolResolver
 
-welcome = """
-Welcome to the Wit-Motoin sample program
-"""
 _writeF = None
 _IsWriteF = False
 
@@ -133,15 +125,12 @@ def endRecord():
     print("End record data")
 
 if __name__ == '__main__':
-
-    print(welcome)
     device = deviceModel.DeviceModel(
-        "我的JY901",
+        "MSRS",
         WitProtocolResolver(),
         JY901SDataProcessor(),
         "51_0"
     )
-
 
     device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     device.serialConfig.baud = 9600                     

@@ -42,7 +42,7 @@ class DeviceModel:
     serialConfig = SerialConfig()
 
     # Update Trigger
-    dataUpdateListener = "51_0"
+    dataUpdateListener = ""
 
     # Data Processor
     dataProcessor = None
@@ -53,9 +53,9 @@ class DeviceModel:
     def __init__(self, deviceName, protocolResolver, dataProcessor, dataUpdateListener):
         print("Initializing device model")
         self.deviceName = deviceName
-        self.protocolResolver = protocolResolver
+        # self.protocolResolver = protocolResolver
         self.dataProcessor = dataProcessor
-        self.dataUpdateListener = dataUpdateListener
+        # self.dataUpdateListener = dataUpdateListener
         # _thread.start_new_thread(self.readDataTh, ("Data-Received-Thread", 10, ))
 
     def setDeviceData(self, key, value):
