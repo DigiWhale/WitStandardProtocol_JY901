@@ -75,7 +75,7 @@ class WitProtocolResolver():
                         # print("Quaternion: ", deviceModel.getDeviceData("q1"),deviceModel.getDeviceData("q2"),deviceModel.getDeviceData("q3"),deviceModel.getDeviceData("q4"))
                     elif(self.TempBytes[1]==0x5f):           
                         self.get_find(self.TempBytes,deviceModel)
-                        print("Find: ", self.TempBytes)
+                        print("find: ", [f"0x{byte:02X}" for byte in self.TempBytes])
                     self.TempBytes=[]                        
                 else:                                        
                     del self.TempBytes[0]                    
