@@ -59,8 +59,6 @@ class WitProtocolResolver():
                 for i in range(0,self.PackSize-1):
                     CheckSum+=self.TempBytes[i]
                 if (CheckSum&0xff==self.TempBytes[self.PackSize-1]): 
-                    x = deviceModel.readData(0x05, 1) 
-                    print("x", x)
                     if (self.TempBytes[1] == 0x50):                   
                         self.get_chiptime(self.TempBytes, deviceModel) 
                         # print("Chiptime: ", deviceModel.getDeviceData("Chiptime"))
@@ -738,7 +736,11 @@ if __name__ == '__main__':
     setConfig(compass)  
     readCompassConfig(compass)
     FiledCalibration(compass)                            
-    compass.dataProcessor.onVarChanged.append(onUpdate)                             
-    input()
-    compass.closeDevice()
+    compass.dataProcessor.onVarChanged.append(onUpdate)   
+    try:
+        while True:
+            print(compass.readReg(0x05, 1)  )      
+    except Exception as e:                
+    # input()
+        compass.closeDevice()
                                      
