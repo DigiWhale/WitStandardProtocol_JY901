@@ -2,6 +2,7 @@
 import time
 import threading
 import serial
+import math
 
 class WitProtocolResolver():
     TempBytes=[]        
@@ -138,10 +139,21 @@ class WitProtocolResolver():
         _x = deviceModel.get_int(bytes([datahex[2],datahex[3]]))
         _y = deviceModel.get_int(bytes([datahex[4],datahex[5]]))
         _z = deviceModel.get_int(bytes([datahex[6],datahex[7]]))
-
+        print(self.calculate_heading(_x, _y))
         deviceModel.setDeviceData("magX", round(_x, 0))
         deviceModel.setDeviceData("magY", round(_y, 0))
         deviceModel.setDeviceData("magZ", round(_z, 0))
+        
+    def calculate_heading(self, mx, my):
+        try:
+            # Calculate heading in degrees
+            heading_degrees = math.degrees(math.atan2(my, mx))
+            # Convert the heading to the range of 0 to 360 degrees
+            adjusted_heading_degrees = (heading_degrees + 360) % 360
+            return adjusted_heading_degrees
+        except Exception as e:
+            print(e)
+
 
     def get_lonlat(self,datahex, deviceModel):
 
