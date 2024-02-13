@@ -3,7 +3,7 @@ import time
 import threading
 import serial
 import math
-import os
+import struct
 
 class WitProtocolResolver():
     TempBytes=[]        
@@ -297,6 +297,12 @@ class WitProtocolResolver():
         t2h = datahex[7]
         t3l = datahex[8]
         t3h = datahex[9]
+        
+        data1 = struct.unpack('<h', bytes(datahex[1:3]))[0]
+        data2 = struct.unpack('<h', bytes(datahex[3:5]))[0]
+        data3 = struct.unpack('<h', bytes(datahex[5:7]))[0]
+        data4 = struct.unpack('<h', bytes(datahex[7:9]))[0]
+        print("data1: ", data1, " data2: ", data2, " data3: ", data3, " data4: ", data4)
 
         val0 = (t0h << 8 | t0l)
         val1 = (t1h << 8 | t1l)
