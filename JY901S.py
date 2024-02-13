@@ -536,6 +536,7 @@ def readConfig(device, regAddr, regCount):
     :return:
     """
     tVals = device.readReg(regAddr, regCount)
+    time.sleep(0.1)
     if (len(tVals) > 0):
         print("Resultx: ", [bin(int(hex(byte), 16)) for byte in tVals])
         print("Resultx: ", [hex(byte) for byte in tVals])
