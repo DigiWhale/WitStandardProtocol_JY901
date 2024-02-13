@@ -288,6 +288,7 @@ class WitProtocolResolver():
         self.save(deviceModel)                                          
 
     def get_find(self,datahex, deviceModel):
+        print("datahex: ", datahex)
         t0l = datahex[2]
         t0h = datahex[3]
         t1l = datahex[4]
