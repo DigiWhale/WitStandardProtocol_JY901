@@ -43,7 +43,7 @@ class WitProtocolResolver():
                         print("Acceleration: ", deviceModel.getDeviceData("accX"),deviceModel.getDeviceData("accY"),deviceModel.getDeviceData("accZ")     
                     elif(self.TempBytes[1]==0x52):                    
                         self.get_gyro(self.TempBytes,deviceModel) 
-                        print("Angular velocity: ", deviceModel.getDeviceData("gyroX"),deviceModel.getDeviceData("gyroY"),deviceModel.getDeviceData("gyroZ")    
+                        print("Angular velocity: ", deviceModel.getDeviceData("gyroX"),deviceModel.getDeviceData("gyroY"),deviceModel.getDeviceData("gyroZ"))    
                     elif(self.TempBytes[1]==0x53):                    
                         self.get_angle(self.TempBytes,deviceModel)  
                         print("Angle: ", deviceModel.getDeviceData("angleX"),deviceModel.getDeviceData("angleY"),deviceModel.getDeviceData("angleZ")  
