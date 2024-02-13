@@ -684,14 +684,15 @@ def readCompassConfig(device):
     :param device: Device model
     :return:
     """
-    print("Reading compass configuration")
-    print("Output frequency: ", device.readReg(0x03, 1))
-    print("Output mode: ", device.readReg(0x02, 1))
-    print("Orientation: ", device.readReg(0x23, 1))
-    print("Mode: ", device.readReg(0x24, 1))
-    print("K-value: ", device.readReg(0x25, 1))
-    print("Acceleration filter: ", device.readReg(0x2A, 1))
-    print("Send data on power on: ", device.readReg(0x2D, 1))
+    # print("Reading compass configuration")
+    # print("Output frequency: ", device.readReg(0x03, 1))
+    # print("Output mode: ", device.readReg(0x02, 1))
+    # print("Orientation: ", device.readReg(0x23, 1))
+    # print("Mode: ", device.readReg(0x24, 1))
+    # print("K-value: ", device.readReg(0x25, 1))
+    # print("Acceleration filter: ", device.readReg(0x2A, 1))
+    # print("Send data on power on: ", device.readReg(0x2D, 1))
+    device.readReg(0x23, 2, "Mode")
     
     # print("#" * 50)                                 
     # print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
