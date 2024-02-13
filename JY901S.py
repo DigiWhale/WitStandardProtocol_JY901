@@ -225,7 +225,8 @@ class WitProtocolResolver():
         for n in range(0,readCount):
             self.TempFindValues = []  
             tempBytes = self.get_readbytes(regAddr + n * 4)             
-            success_bytes = deviceModel.serialPort.write(tempBytes)    
+            success_bytes = deviceModel.serialPort.write(tempBytes)  
+            print("success_bytes: ", success_bytes)  
             for i in range(0,20): 
                 time.sleep(0.05)  
                 if (len(self.TempFindValues)>0):   
