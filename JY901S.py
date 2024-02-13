@@ -637,7 +637,7 @@ def setConfig(device):
     # set gyro static threshold
     print(RED + "Setting gyro static threshold" + RESET)
     error = device.readReg(0x6A, 2, "WERROR")
-    werror = hex(int((error[1]/1000*180/3.1415926)*1.2))
+    werror = (error[1]/1000*180/3.1415926)*1.2
     print("WERROR: ", werror)
     device.writeReg(0x61, int(werror, 16))
     time.sleep(0.1)
