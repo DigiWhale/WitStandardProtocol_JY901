@@ -639,7 +639,6 @@ def setConfig(device):
     time.sleep(0.1)
     print(GREEN + "#"*50 + RESET)
 
-
 def AccelerationCalibration(device):
     """
     Acceleration calibration
@@ -684,17 +683,17 @@ def readCompassConfig(device):
     :param device: Device model
     :return:
     """
-    # print("Reading compass configuration")
-    # print("Output frequency: ", device.readReg(0x03, 1))
-    # print("Output mode: ", device.readReg(0x02, 1))
-    # print("Orientation: ", device.readReg(0x23, 1))
-    # print("Mode: ", device.readReg(0x24, 1))
-    # print("K-value: ", device.readReg(0x25, 1))
-    # print("Acceleration filter: ", device.readReg(0x2A, 1))
-    # print("Send data on power on: ", device.readReg(0x2D, 1))
-    data = device.readReg(0x04, 1, "Mode")
-    if (len(data) > 0):
-        print("Mode: ", data)
+    print("Reading compass configuration")
+    print("Output frequency: ", device.readReg(0x03, 1))
+    print("Output mode: ", device.readReg(0x02, 1))
+    print("Orientation: ", device.readReg(0x23, 1))
+    print("Mode: ", device.readReg(0x24, 1))
+    print("K-value: ", device.readReg(0x25, 1))
+    print("Acceleration filter: ", device.readReg(0x2A, 1))
+    print("Send data on power on: ", device.readReg(0x2D, 1))
+    # data = device.readReg(0x04, 1, "Mode")
+    # if (len(data) > 0):
+    #     print("Mode: ", data)
         
     # data = device.readReg(0x02, 3, "Mode")
     # if (len(data) > 0):
