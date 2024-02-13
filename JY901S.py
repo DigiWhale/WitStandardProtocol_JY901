@@ -602,7 +602,7 @@ if __name__ == '__main__':
     device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
-    readConfig(device, 0x02, 100)    
+    readConfig(device, 0x02, 1)    
     setConfig(device)  
     FiledCalibration(device)                            
     device.dataProcessor.onVarChanged.append(onUpdate)                             
