@@ -127,15 +127,15 @@ class WitProtocolResolver():
         angle_y = (ryh << 8 | ryl) / 32768.0 * self.angleRange
         angle_z = (rzh << 8 | rzl) / 32768.0 * self.angleRange
         if angle_x >= self.angleRange:
-            angle_x -= 2 * -self.angleRange
+            angle_x -= 2 * self.angleRange
         if angle_y >= self.angleRange:
-            angle_y -= 2 * -self.angleRange
+            angle_y -= 2 * self.angleRange
         if angle_z >= self.angleRange:
-            angle_z -= 2 * -self.angleRange
+            angle_z -= 2 * self.angleRange
 
-        deviceModel.setDeviceData("angleX", round(angle_x, 3)) 
-        deviceModel.setDeviceData("angleY", round(angle_y, 3))
-        deviceModel.setDeviceData("angleZ", round(angle_z, 3))
+        deviceModel.setDeviceData("angleX", round(-1 * angle_x, 3)) 
+        deviceModel.setDeviceData("angleY", round(-1 * angle_y, 3))
+        deviceModel.setDeviceData("angleZ", round(-1 * angle_z, 3))
         
     def get_mag(self,datahex, deviceModel):
         _x = deviceModel.get_int(bytes([datahex[2],datahex[3]]))
