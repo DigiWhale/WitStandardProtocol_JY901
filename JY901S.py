@@ -46,24 +46,24 @@ class WitProtocolResolver():
                         print("Angular velocity: ", deviceModel.getDeviceData("gyroX"),deviceModel.getDeviceData("gyroY"),deviceModel.getDeviceData("gyroZ"))    
                     elif(self.TempBytes[1]==0x53):                    
                         self.get_angle(self.TempBytes,deviceModel)  
-                        print("Angle: ", deviceModel.getDeviceData("angleX"),deviceModel.getDeviceData("angleY"),deviceModel.getDeviceData("angleZ")  
+                        print("Angle: ", deviceModel.getDeviceData("angleX"),deviceModel.getDeviceData("angleY"),deviceModel.getDeviceData("angleZ"))  
                     elif(self.TempBytes[1]==0x54):                    
                         self.get_mag(self.TempBytes, deviceModel)   
                         self.calculate_heading(deviceModel)  
                         deviceModel.dataProcessor.onUpdate(deviceModel)
-                        print("Magnetic field: ", deviceModel.getDeviceData("magX"),deviceModel.getDeviceData("magY"),deviceModel.getDeviceData("magZ") 
+                        print("Magnetic field: ", deviceModel.getDeviceData("magX"),deviceModel.getDeviceData("magY"),deviceModel.getDeviceData("magZ")) 
                     elif(self.TempBytes[1]==0x57):                    
                         self.get_lonlat(self.TempBytes, deviceModel)     
                         deviceModel.dataProcessor.onUpdate(deviceModel)
-                        print("Longitude: ", deviceModel.getDeviceData("lon"), " Latitude: ", deviceModel.getDeviceData("lat")
+                        print("Longitude: ", deviceModel.getDeviceData("lon"), " Latitude: ", deviceModel.getDeviceData("lat"))
                     elif(self.TempBytes[1]==0x58):                    
                         self.get_gps(self.TempBytes, deviceModel)     
                         deviceModel.dataProcessor.onUpdate(deviceModel) 
-                        print("Height: ", deviceModel.getDeviceData("Height"), " Yaw: ", deviceModel.getDeviceData("Yaw"), " Speed: ", deviceModel.getDeviceData("Speed")
+                        print("Height: ", deviceModel.getDeviceData("Height"), " Yaw: ", deviceModel.getDeviceData("Yaw"), " Speed: ", deviceModel.getDeviceData("Speed"))
                     elif(self.TempBytes[1]==0x59):                    
                         self.get_four_elements(self.TempBytes, deviceModel)     
                         deviceModel.dataProcessor.onUpdate(deviceModel) 
-                        print("Quaternion: ", deviceModel.getDeviceData("q1"),deviceModel.getDeviceData("q2"),deviceModel.getDeviceData("q3"),deviceModel.getDeviceData("q4")
+                        print("Quaternion: ", deviceModel.getDeviceData("q1"),deviceModel.getDeviceData("q2"),deviceModel.getDeviceData("q3"),deviceModel.getDeviceData("q4"))
                     elif(self.TempBytes[1]==0x5f):           
                         self.get_find(self.TempBytes,deviceModel)
                         print("Find: ", self.TempFindValues)
