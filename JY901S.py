@@ -540,7 +540,6 @@ def readConfig(device, regAddr, regCount):
     if (len(tVals) > 0):
         print("Resultx: ", [bin(int(hex(byte), 16)) for byte in tVals])
         print("Resulty: ", tVals)
-        binary_value = 
     else:
         print("No response")
     # tVals = device.readReg(0x23, 2)
