@@ -12,6 +12,16 @@ class WitProtocolResolver():
     accRange = 16.0     
     angleRange = 180.0 
     TempFindValues=[]
+    cal_dict = {
+    0x00: 'Normal working mode',
+    0x01: 'Automatic accelerometer calibration',
+    0x03: 'Height reset',
+    0x04: 'Set the heading angle to zero',
+    0x07: 'Magnetic Field Calibration (Spherical Fitting)',
+    0x08: 'Set the angle reference',
+    0x09: 'Magnetic Field Calibration (Dual Plane Mode)'
+    }
+
 
     def setConfig(self, deviceModel):
         pass
@@ -544,6 +554,7 @@ def readConfig(device, regAddr, regCount):
         print("Raw: ", tVals)
     else:
         print("No response")
+    return hex(tVals[0])
     # tVals = device.readReg(0x23, 2)
     # if (len(tVals) > 0):
     #     print("Resultz: " + str(tVals))
@@ -659,7 +670,7 @@ if __name__ == '__main__':
     # set_compass_data_mode(compass)
     setConfig(compass)  
     print("#" * 50)                                 
-    readConfig(compass, 0x01, 1)
+    print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
     print("#" * 50)                                 
     readConfig(compass, 0x02, 3)
     print("#" * 50)                                 
