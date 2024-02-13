@@ -149,9 +149,9 @@ class WitProtocolResolver():
             # Get magnetometer and accelerometer data
             mag_x = deviceModel.getDeviceData("magX")
             mag_y = deviceModel.getDeviceData("magY")
-            acc_x = deviceModel.getDeviceData("accX")
-            acc_y = deviceModel.getDeviceData("accY")
-            acc_z = deviceModel.getDeviceData("accZ")
+            acc_x = deviceModel.getDeviceData("accX") * 9.8
+            acc_y = deviceModel.getDeviceData("accY") * 9.8
+            acc_z = deviceModel.getDeviceData("accZ") * 9.8
             # Calculate tilt-compensated heading
             tilt_heading = math.atan2(mag_y, mag_x)
             pitch = math.atan2(acc_x, math.sqrt(acc_y**2 + acc_z**2))
