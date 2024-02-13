@@ -58,7 +58,9 @@ class WitProtocolResolver():
                 CheckSum = 0                                
                 for i in range(0,self.PackSize-1):
                     CheckSum+=self.TempBytes[i]
-                if (CheckSum&0xff==self.TempBytes[self.PackSize-1]):  
+                if (CheckSum&0xff==self.TempBytes[self.PackSize-1]): 
+                    x = deviceModel.readData(0x05, 1) 
+                    print("x", x)
                     if (self.TempBytes[1] == 0x50):                   
                         self.get_chiptime(self.TempBytes, deviceModel) 
                         # print("Chiptime: ", deviceModel.getDeviceData("Chiptime"))
