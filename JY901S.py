@@ -613,7 +613,7 @@ def endRecord():
     print("End record data")
 
 if __name__ == '__main__':
-    device = deviceModel.DeviceModel(
+    device = DeviceModel(
         "MSRS",
         WitProtocolResolver(),
         JY901SDataProcessor(),
