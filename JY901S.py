@@ -302,6 +302,7 @@ class WitProtocolResolver():
         val1 = (t1h << 8 | t1l)
         val2 = (t2h << 8 | t2l)
         val3 = (t3h << 8 | t3l)
+        print("val0: ", val0, " val1: ", val1, " val2: ", val2, " val3: ", val3)
         self.TempFindValues.extend([val0,val1,val2,val3])
 
 class JY901SDataProcessor():
