@@ -621,6 +621,7 @@ def setConfig(device):
     device.writeReg(0x2A, 0xF401)
     time.sleep(0.1)
     # set to send data on power on
+    print("Setting to send data on power on")
     device.writeReg(0x2D, 1)
     time.sleep(0.1)
     
