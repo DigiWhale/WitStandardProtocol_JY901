@@ -4,9 +4,6 @@ import datetime
 import threading
 import serial
 
-_writeF = None
-_IsWriteF = False
-
 class WitProtocolResolver():
     TempBytes=[]        
     PackSize = 11        
@@ -564,51 +561,6 @@ def onUpdate(deviceModel):
         , " Heading angle:" + str(deviceModel.getDeviceData("Yaw")) + " Ground speed:" + str(deviceModel.getDeviceData("Speed"))
          , " Quaternion:" + str(deviceModel.getDeviceData("q1")) + "," + str(deviceModel.getDeviceData("q2")) + "," + str(deviceModel.getDeviceData("q3"))+ "," + str(deviceModel.getDeviceData("q4"))
           )
-    if (_IsWriteF):    
-        Tempstr += "\t"+str(deviceModel.getDeviceData("accX")) + "\t"+str(deviceModel.getDeviceData("accY"))+"\t"+ str(deviceModel.getDeviceData("accZ"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("gyroX")) +"\t"+ str(deviceModel.getDeviceData("gyroY")) +"\t"+ str(deviceModel.getDeviceData("gyroZ"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("angleX")) +"\t" + str(deviceModel.getDeviceData("angleY")) +"\t"+ str(deviceModel.getDeviceData("angleZ"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("temperature"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("magX")) +"\t" + str(deviceModel.getDeviceData("magY")) +"\t"+ str(deviceModel.getDeviceData("magZ"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("lon")) + "\t" + str(deviceModel.getDeviceData("lat"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("Yaw")) + "\t" + str(deviceModel.getDeviceData("Speed"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("q1")) + "\t" + str(deviceModel.getDeviceData("q2"))
-        Tempstr += "\t" + str(deviceModel.getDeviceData("q3")) + "\t" + str(deviceModel.getDeviceData("q4"))
-        Tempstr += "\r\n"
-        _writeF.write(Tempstr)
-
-def startRecord():
-    """
-    Start recording data
-    :return:
-    """
-    # global _writeF
-    # global _IsWriteF
-    _writeF = open(str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')) + ".txt", "w")
-    _IsWriteF = True
-    Tempstr = "Chiptime"
-    Tempstr +=  "\tax(g)\tay(g)\taz(g)"
-    Tempstr += "\twx(deg/s)\twy(deg/s)\twz(deg/s)"
-    Tempstr += "\tAngleX(deg)\tAngleY(deg)\tAngleZ(deg)"
-    Tempstr += "\tT(°)"
-    Tempstr += "\tmagx\tmagy\tmagz"
-    Tempstr += "\tlon\tlat"
-    Tempstr += "\tYaw\tSpeed"
-    Tempstr += "\tq1\tq2\tq3\tq4"
-    Tempstr += "\r\n"
-    _writeF.write(Tempstr)
-    print("Start recording data", Tempstr)
-
-def endRecord():
-    """
-    End record data
-    :return:
-    """
-    global _writeF
-    global _IsWriteF
-    _IsWriteF = False             
-    _writeF.close()               
-    print("End record data")
 
 if __name__ == '__main__':
     device = DeviceModel(
@@ -624,7 +576,7 @@ if __name__ == '__main__':
     readConfig(device)                                  
     device.dataProcessor.onVarChanged.append(onUpdate)  
 
-    startRecord()                                       
+                                     
     input()
     device.closeDevice()
-    endRecord()                                        
+                                     
