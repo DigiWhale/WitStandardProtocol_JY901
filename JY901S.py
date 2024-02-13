@@ -562,7 +562,7 @@ def setConfig(device):
     time.sleep(0.1)
     device.writeReg(0x23, 0)
     time.sleep(0.1)
-    device.writeReg(0x24, 0)
+    device.writeReg(0x24, 1)
     time.sleep(0.1)
     device.save()
 
