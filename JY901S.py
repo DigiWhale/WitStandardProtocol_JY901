@@ -258,7 +258,7 @@ class WitProtocolResolver():
         for n in range(0,readCount):
             self.TempFindValues = []  
             tempBytes = self.get_readbytes(regAddr + n * 4)
-            hex_string = ''.join(hex(int(x, 16))[2:].zfill(2) for x in tempBytes)
+            hex_string = ' '.join(hex(x)[2:].zfill(2) for x in tempBytes)
             print("Read Register Command: ", hex_string)            
             success_bytes = deviceModel.serialPort.write(tempBytes)  
             for i in range(0,20): 
@@ -274,7 +274,7 @@ class WitProtocolResolver():
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
-        hex_string = ''.join(hex(int(x, 16))[2:].zfill(2) for x in tempBytes)
+        hex_string = ' '.join(hex(x)[2:].zfill(2) for x in tempBytes)
         print("Write Register Command: ", hex_string)             
         success_bytes = deviceModel.serialPort.write(tempBytes) 
                  
