@@ -320,7 +320,7 @@ class WitProtocolResolver():
         print("val0: ", val0, " val1: ", val1, " val2: ", val2, " val3: ", val3)
         self.TempFindValues.extend([val0,val1,val2,val3])
 
-class JY901SDataProcessor():
+class DataProcessor():
     onVarChanged = []
 
     def onOpen(self, deviceModel):
@@ -583,18 +583,6 @@ def setConfig(device):
     :param device: Device model
     :return:
     """
-    device.unlock()
-    time.sleep(0.1)
-    device.writeReg(0x03, 0x0B)
-    time.sleep(0.1)
-    device.writeReg(0x23, 0)
-    time.sleep(0.1)
-    device.writeReg(0x24, 1)
-    time.sleep(0.1)
-    device.save()
-    time.sleep(0.1)
-    
-def set_compass_data_mode(device):
     TIME =  0
     ACC =  1
     GYRO =  1
@@ -606,32 +594,44 @@ def set_compass_data_mode(device):
     VELOCITY =  0
     QUATER =  0
     BGSA =  0
-    
     # Convert to binary string
     binary_string = f"{BGSA}{QUATER}{VELOCITY}{GPS}{PRESS}{PORT}{MAG}{ANGLE}{GYRO}{ACC}{TIME}"
-
     # Convert binary string to hexadecimal
     hex_value = hex(int(binary_string, 2))
     # Generate the full command
     hex_to_int = int(hex_value, 16)
-
+    device.unlock()
+    time.sleep(0.1)
+    # set output to 200hz
+    print("Setting output to 200hz")
+    device.writeReg(0x03, 0x0B)
+    time.sleep(0.1)
+    # enable messages 
+    print("Enabling messages")
+    device.writeReg(0x02, hex_to_int)
+    time.sleep(0.1)
+    # set to horizontal orientation
+    print("Setting to horizontal orientation")
+    device.writeReg(0x23, 0)
+    time.sleep(0.1)
+    # set to 9-axis mode
+    print("Setting to 9-axis mode")
+    device.writeReg(0x24, 0)
+    time.sleep(0.1)
+    # set k-value to 30, Range: 1~10000, default 30 (modification is not recommended)
+    print("Setting k-value to 30")
+    device.writeReg(0x25, 0x1E)
+    time.sleep(0.1)
+    # set acceleration filter to 500
+    print("Setting acceleration filter to 500")
+    device.writeReg(0x2A, 0xF401)
+    time.sleep(0.1)
+    # set to send data on power on
+    device.writeReg(0x2D, 1)
+    time.sleep(0.1)
     
-    # Step 1: Unlock the device
-    unlock_command = bytearray([0xFF, 0xAA, 0x69, 0x88, 0xB5])
-    device.serialPort.write(unlock_command)
-    time.sleep(1)
-    
-    # Step 2: Set RSW to 0 to turn off all automatic data output
-    rsw_command = bytearray([0xFF, 0xAA, 0x02, hex_to_int, 0x00])  # RSW register address is 0x02
-    device.serialPort.write(rsw_command)
-    time.sleep(1)
-    
-    # Step 3: Save the configuration
-    save_command = bytearray([0xFF, 0xAA, 0x00, 0x00, 0x00])
-    device.serialPort.write(save_command)
-    time.sleep(1)
-    
-    print("Compass data streaming mode set to manual.")
+    device.save()
+    time.sleep(0.1)
 
 def AccelerationCalibration(device):
     """
@@ -671,36 +671,45 @@ def onUpdate(deviceModel):
     except Exception as e:
         print(e)
 
-
+def readCompassConfig(device):
+    """
+    Read compass configuration
+    :param device: Device model
+    :return:
+    """
+    print("Reading compass configuration")
+    print("Output frequency: ", device.readReg(0x03, 1))
+    print("Output mode: ", device.readReg(0x02, 1))
+    print("Orientation: ", device.readReg(0x23, 1))
+    print("Mode: ", device.readReg(0x24, 1))
+    print("K-value: ", device.readReg(0x25, 1))
+    print("Acceleration filter: ", device.readReg(0x2A, 1))
+    print("Send data on power on: ", device.readReg(0x2D, 1))
+    
+    # print("#" * 50)                                 
+    # print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
+    # print("#" * 50)                                 
+    # readConfig(compass, 0x02, 4)
+    # print("#" * 50)                                 
+    # print(compass.protocolResolver.frequency_dict[readConfig(compass, 0x03, 1)])
+    # print("#" * 50)                                 
+    # readConfig(compass, 0x04, 1)
+    # print("#" * 50)                                 
+    # readConfig(compass, 0x1F, 1)
+    # print("#" * 50)                                 
+    # readConfig(compass, 0x5F, 1)
+    # print("#" * 50)                                 
+    # readConfig(compass, 0x23, 2)
+    # print("#" * 50)                                 
+    # print(compass.deviceData)
+    
 if __name__ == '__main__':
-    compass = Witmotion(
-        "MSRS",
-        WitProtocolResolver(),
-        JY901SDataProcessor(),
-        "51_0"
-    )
-
+    compass = Witmotion("MSRS", WitProtocolResolver(), DataProcessor(), "51_0")
     compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     compass.serialConfig.baud = 9600                     
     compass.openDevice()
-    set_compass_data_mode(compass)
     setConfig(compass)  
-    print("#" * 50)                                 
-    print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
-    print("#" * 50)                                 
-    readConfig(compass, 0x02, 4)
-    print("#" * 50)                                 
-    print(compass.protocolResolver.frequency_dict[readConfig(compass, 0x03, 1)])
-    print("#" * 50)                                 
-    readConfig(compass, 0x04, 1)
-    print("#" * 50)                                 
-    readConfig(compass, 0x1F, 1)
-    print("#" * 50)                                 
-    readConfig(compass, 0x5F, 1)
-    print("#" * 50)                                 
-    readConfig(compass, 0x23, 2)
-    print("#" * 50)                                 
-    print(compass.deviceData)
+    readCompassConfig(compass)
     FiledCalibration(compass)                            
     compass.dataProcessor.onVarChanged.append(onUpdate)                             
     input()
