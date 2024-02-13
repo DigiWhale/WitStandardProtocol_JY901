@@ -687,6 +687,26 @@ def onUpdate(deviceModel):
     except Exception as e:
         print(e)
 
+def print_offsets(deviceModel):
+    """
+    Print offsets
+    :param deviceModel: Device model
+    :return:
+    """
+    print("AXOFFSET:", deviceModel.readReg(0x05, 1)[0]/10000, "(Acceleration X-axis zero offset)")
+    print("AYOFFSET:", deviceModel.readReg(0x06, 1)[0]/10000, "(Acceleration Y-axis zero offset)")
+    print("AZOFFSET:", deviceModel.readReg(0x07, 1)[0]/10000, "(Acceleration Z-axis zero offset)")
+    print("GXOFFSET:", deviceModel.readReg(0x08, 1)[0]/10000, "(Angular velocity X bias)")
+    print("GYOFFSET:", deviceModel.readReg(0x09, 1)[0]/10000, "(Angular velocity Y bias)")
+    print("GZOFFSET:", deviceModel.readReg(0x0A, 1)[0]/10000, "(Angular velocity Z bias)")
+    print("HXOFFSET:", deviceModel.readReg(0x0B, 1), "(Magnetic field X bias)")
+    print("HYOFFSET:", deviceModel.readReg(0x0C, 1), "(Magnetic field Y bias)")
+    print("HZOFFSET:", deviceModel.readReg(0x0D, 1), "(Magnetic field Z bias)")
+    print("MAGRANGX:", deviceModel.readReg(0x1C, 1), "(Magnetic field X-axis range)")
+    print("MAGRANGY:", deviceModel.readReg(0x1D, 1), "(Magnetic field Y-axis range)")
+    print("MAGRANGZ:", deviceModel.readReg(0x1E, 1), "(Magnetic field Z-axis range)")
+
+
 def readCompassConfig(device):
     """
     Read compass configuration
@@ -737,6 +757,7 @@ if __name__ == '__main__':
     readCompassConfig(compass)
     FiledCalibration(compass)                            
     compass.dataProcessor.onVarChanged.append(onUpdate)   
+    compass.dataProcessor.onVarChanged.append(print_offsets)   
     try:
         while True:
             print(compass.readReg(0x0B, 1)  )      
