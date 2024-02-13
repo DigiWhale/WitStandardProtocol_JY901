@@ -527,12 +527,12 @@ def readConfig(device):
     """
     tVals = device.readReg(0x02, 3)
     if (len(tVals) > 0):
-        print("Result: " + str(tVals))
+        print("Resultx: " + str(tVals))
     else:
         print("No response")
     tVals = device.readReg(0x23, 2)
     if (len(tVals) > 0):
-        print("Result: " + str(tVals))
+        print("Resultz: " + str(tVals))
     else:
         print("No response")
 
