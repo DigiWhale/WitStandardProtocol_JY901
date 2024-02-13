@@ -624,6 +624,10 @@ def setConfig(device):
     print("Setting to send data on power on")
     device.writeReg(0x2D, 1)
     time.sleep(0.1)
+    # set gyro static threshhold
+    print("Setting gyro static threshhold")
+    device.writeReg(0x61, 32)
+    time.sleep(0.1)
     
     device.save()
     time.sleep(0.1)
