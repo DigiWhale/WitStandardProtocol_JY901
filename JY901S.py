@@ -305,21 +305,20 @@ class WitProtocolResolver():
         time.sleep(0.1)                                                  
         self.save(deviceModel)                                          
 
-    def get_find(self,datahex, deviceModel):
-        t0l = datahex[2]
-        t0h = datahex[3]
-        t1l = datahex[4]
-        t1h = datahex[5]
-        t2l = datahex[6]
-        t2h = datahex[7]
-        t3l = datahex[8]
-        t3h = datahex[9]
+    def get_find(self, datahex, deviceModel):
+        self.TempFindValues = []  # Clear the list
+        
+        for i in range(0, len(datahex), 2):
+            # Extract low and high bytes
+            low_byte = datahex[i]
+            high_byte = datahex[i + 1]
+            
+            # Combine bytes into signed short integer
+            value = (int(high_byte, 16) << 8) | int(low_byte, 16)
+            
+            # Append the combined value to the list
+            self.TempFindValues.append(value)
 
-        val0 = (t0h << 8 | t0l)
-        val1 = (t1h << 8 | t1l)
-        val2 = (t2h << 8 | t2l)
-        val3 = (t3h << 8 | t3l)
-        self.TempFindValues.extend([val0,val1,val2,val3])
 
 class DataProcessor():
     onVarChanged = []
