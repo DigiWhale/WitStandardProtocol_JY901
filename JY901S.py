@@ -40,7 +40,7 @@ class WitProtocolResolver():
                         print("Chiptime: ", deviceModel.getDeviceData("Chiptime"))
                     elif (self.TempBytes[1]==0x51):                    
                         self.get_acc(self.TempBytes,deviceModel)  
-                        print("Acceleration: ", deviceModel.getDeviceData("accX"),deviceModel.getDeviceData("accY"),deviceModel.getDeviceData("accZ")     
+                        print("Acceleration: ", deviceModel.getDeviceData("accX"),deviceModel.getDeviceData("accY"),deviceModel.getDeviceData("accZ"))     
                     elif(self.TempBytes[1]==0x52):                    
                         self.get_gyro(self.TempBytes,deviceModel) 
                         print("Angular velocity: ", deviceModel.getDeviceData("gyroX"),deviceModel.getDeviceData("gyroY"),deviceModel.getDeviceData("gyroZ"))    
