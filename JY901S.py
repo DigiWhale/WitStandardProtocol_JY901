@@ -578,13 +578,22 @@ def onUpdate(deviceModel):
     :param deviceModel: Device model
     :return:
     """
-    print(" Temperature:" + str(deviceModel.getDeviceData("temperature"))
-         , " Acceleration:" + str(deviceModel.getDeviceData("accX")) +","+  str(deviceModel.getDeviceData("accY")) +","+ str(deviceModel.getDeviceData("accZ"))
-         , " Angular velocity:" + str(deviceModel.getDeviceData("gyroX")) +","+ str(deviceModel.getDeviceData("gyroY")) +","+ str(deviceModel.getDeviceData("gyroZ"))
-         , " Angle:" + str(deviceModel.getDeviceData("angleX")) +","+ str(deviceModel.getDeviceData("angleY")) +","+ str(deviceModel.getDeviceData("angleZ"))
-        , " Magnetic field:" + str(deviceModel.getDeviceData("magX")) +","+ str(deviceModel.getDeviceData("magY"))+","+ str(deviceModel.getDeviceData("magZ"))
-        , " Heading angle:" + str(deviceModel.getDeviceData("Yaw")) + " Ground speed:" + str(deviceModel.getDeviceData("Speed"))
-          )
+    print("Temperature: {:.2f}".format(deviceModel.getDeviceData("temperature")))
+    print("Acceleration: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("accX"),
+                                                         deviceModel.getDeviceData("accY"),
+                                                         deviceModel.getDeviceData("accZ")))
+    print("Angular velocity: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("gyroX"),
+                                                             deviceModel.getDeviceData("gyroY"),
+                                                             deviceModel.getDeviceData("gyroZ")))
+    print("Angle: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("angleX"),
+                                                  deviceModel.getDeviceData("angleY"),
+                                                  deviceModel.getDeviceData("angleZ")))
+    print("Magnetic field: {:.0f}, {:.0f}, {:.0f}".format(deviceModel.getDeviceData("magX"),
+                                                           deviceModel.getDeviceData("magY"),
+                                                           deviceModel.getDeviceData("magZ")))
+    print("Heading angle: {:.2f}, Ground speed: {:.2f}".format(deviceModel.getDeviceData("Yaw"),
+                                                                deviceModel.getDeviceData("Speed")))
+
 
 if __name__ == '__main__':
     device = DeviceModel(
