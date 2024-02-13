@@ -579,20 +579,11 @@ def onUpdate(deviceModel):
     """
     try:
         print("Temperature: {:.2f}".format(deviceModel.getDeviceData("temperature")))
-        print("Acceleration: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("accX"),
-                                                            deviceModel.getDeviceData("accY"),
-                                                            deviceModel.getDeviceData("accZ")))
-        print("Angular velocity: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("gyroX"),
-                                                                deviceModel.getDeviceData("gyroY"),
-                                                                deviceModel.getDeviceData("gyroZ")))
-        print("Angle: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("angleX"),
-                                                    deviceModel.getDeviceData("angleY"),
-                                                    deviceModel.getDeviceData("angleZ")))
-        print("Magnetic field: {:.0f}, {:.0f}, {:.0f}".format(deviceModel.getDeviceData("magX"),
-                                                            deviceModel.getDeviceData("magY"),
-                                                            deviceModel.getDeviceData("magZ")))
-        print("Heading angle: {:.2f}, Ground speed: {:.2f}".format(deviceModel.getDeviceData("heading"),
-                                                                    deviceModel.getDeviceData("Speed")))
+        print("Acceleration: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("accX"),deviceModel.getDeviceData("accY"),deviceModel.getDeviceData("accZ")))
+        print("Angular velocity: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("gyroX"),deviceModel.getDeviceData("gyroY"),deviceModel.getDeviceData("gyroZ")))
+        print("Angle: {:.4f}, {:.4f}, {:.4f}".format(deviceModel.getDeviceData("angleX"),deviceModel.getDeviceData("angleY"),deviceModel.getDeviceData("angleZ")))
+        print("Magnetic field: {:.0f}, {:.0f}, {:.0f}".format(deviceModel.getDeviceData("magX"),deviceModel.getDeviceData("magY"),deviceModel.getDeviceData("magZ")))
+        print("Heading angle: {:.2f}".format(deviceModel.getDeviceData("heading")))
     except Exception as e:
         print(e)
 
