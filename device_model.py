@@ -1,13 +1,7 @@
 # coding: UTF-8
 import threading
-import _thread
 import time
-import struct
 import serial
-
-'''
-    Serial Configuration
-'''
 
 
 class SerialConfig:
@@ -16,10 +10,6 @@ class SerialConfig:
 
     # Baud rate
     baud = 9600
-
-'''
-Device Model
-'''
 
 
 class DeviceModel:
