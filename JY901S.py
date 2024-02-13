@@ -595,14 +595,14 @@ def setConfig(device):
     time.sleep(0.1)
     
 def set_compass_data_mode(device):
-    TIME =  1
+    TIME =  0
     ACC =  1
     GYRO =  1
     ANGLE =  1
     MAG =  1
-    PORT =  1
-    PRESS =  1
-    GPS =  1
+    PORT =  0
+    PRESS =  0
+    GPS =  0
     VELOCITY =  0
     QUATER =  0
     BGSA =  0
