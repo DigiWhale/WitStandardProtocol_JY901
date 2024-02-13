@@ -695,6 +695,10 @@ def readCompassConfig(device):
     data = device.readReg(0x23, 2, "Mode")
     if (len(data) > 0):
         print("Mode: ", data)
+        
+    data = device.readReg(0x02, 3, "Mode")
+    if (len(data) > 0):
+        print("Mode: ", data)
     # print("#" * 50)                                 
     # print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
     # print("#" * 50)                                 
