@@ -565,6 +565,45 @@ def setConfig(device):
     device.writeReg(0x24, 1)
     time.sleep(0.1)
     device.save()
+    
+def set_compass_data_mode(device):
+    TIME =  0
+    ACC =  1
+    GYRO =  1
+    ANGLE =  1
+    MAG =  1
+    PORT =  0
+    PRESS =  0
+    GPS =  0
+    VELOCITY =  0
+    QUATER =  0
+    BGSA =  0
+    
+    # Convert to binary string
+    binary_string = f"{BGSA}{QUATER}{VELOCITY}{GPS}{PRESS}{PORT}{MAG}{ANGLE}{GYRO}{ACC}{TIME}"
+
+    # Convert binary string to hexadecimal
+    hex_value = hex(int(binary_string, 2))
+    # Generate the full command
+    hex_to_int = int(hex_value, 16)
+
+    
+    # Step 1: Unlock the device
+    unlock_command = bytearray([0xFF, 0xAA, 0x69, 0x88, 0xB5])
+    device.serialPort.write(unlock_command)
+    time.sleep(1)
+    
+    # Step 2: Set RSW to 0 to turn off all automatic data output
+    rsw_command = bytearray([0xFF, 0xAA, 0x02, hex_to_int, 0x00])  # RSW register address is 0x02
+    device.serialPort.write(rsw_command)
+    time.sleep(1)
+    
+    # Step 3: Save the configuration
+    save_command = bytearray([0xFF, 0xAA, 0x00, 0x00, 0x00])
+    device.serialPort.write(save_command)
+    time.sleep(1)
+    
+    print("Compass data streaming mode set to manual.")
 
 def AccelerationCalibration(device):
     """
@@ -616,6 +655,7 @@ if __name__ == '__main__':
     compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     compass.serialConfig.baud = 9600                     
     compass.openDevice()
+    set_compass_data_mode(compass)
     setConfig(compass)  
     print("#" * 50)                                 
     readConfig(compass, 0x01, 1)
