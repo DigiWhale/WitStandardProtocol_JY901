@@ -147,7 +147,7 @@ class WitProtocolResolver():
     def calculate_heading(self, deviceModel):
         try:
             # Calculate heading in degrees
-            heading_degrees = math.degrees(math.atan2(deviceModel["magY"], deviceModel["magX"]))
+            heading_degrees = math.degrees(math.atan2(deviceModel.getDeviceData("magY"), deviceModel.getDeviceData("magX")))
             # Convert the heading to the range of 0 to 360 degrees
             adjusted_heading_degrees = (heading_degrees + 360) % 360
             print(adjusted_heading_degrees)
