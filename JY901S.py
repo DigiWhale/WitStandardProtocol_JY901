@@ -488,7 +488,7 @@ class Witmotion:
         :return: Read data
         """
         if self.protocolResolver is not None:
-            return self.protocolResolver.readReg(regAddr, regCount, notes, self)
+            return self.protocolResolver.readReg(regAddr, regCount, self, notes)
         else:
             return None
 
