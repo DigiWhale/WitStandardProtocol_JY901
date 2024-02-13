@@ -626,7 +626,7 @@ def setConfig(device):
     time.sleep(0.1)
     # set gyro static threshhold
     print("Setting gyro static threshhold")
-    device.writeReg(0x61, 32)
+    device.writeReg(0x61, 50)
     time.sleep(0.1)
     
     device.save()
