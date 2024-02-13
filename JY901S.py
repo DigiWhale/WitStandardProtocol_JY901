@@ -739,7 +739,7 @@ if __name__ == '__main__':
     compass.dataProcessor.onVarChanged.append(onUpdate)   
     try:
         while True:
-            print(compass.readReg(0x05, 1)  )      
+            print(compass.readReg(0x1C, 1)  )      
     except Exception as e:                
     # input()
         compass.closeDevice()
