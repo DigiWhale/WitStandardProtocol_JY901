@@ -126,12 +126,12 @@ class WitProtocolResolver():
         angle_x = (rxh << 8 | rxl) / 32768.0 * self.angleRange * -1
         angle_y = (ryh << 8 | ryl) / 32768.0 * self.angleRange * -1
         angle_z = (rzh << 8 | rzl) / 32768.0 * self.angleRange * -1
-        if angle_x >= self.angleRange:
-            angle_x -= 2 * self.angleRange
-        if angle_y >= self.angleRange:
-            angle_y -= 2 * self.angleRange
-        if angle_z >= self.angleRange:
-            angle_z -= 2 * self.angleRange
+        # if angle_x >= self.angleRange:
+        #     angle_x -= 2 * self.angleRange
+        # if angle_y >= self.angleRange:
+        #     angle_y -= 2 * self.angleRange
+        # if angle_z >= self.angleRange:
+        #     angle_z -= 2 * self.angleRange
 
         deviceModel.setDeviceData("angleX", round(angle_x, 3)) 
         deviceModel.setDeviceData("angleY", round(angle_y, 3))
