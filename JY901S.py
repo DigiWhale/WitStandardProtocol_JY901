@@ -135,7 +135,7 @@ class WitProtocolResolver():
 
         deviceModel.setDeviceData("angleX", round(angle_x, 3)) 
         deviceModel.setDeviceData("angleY", round(angle_y, 3))
-        deviceModel.setDeviceData("angleZ", round(angle_z, 3))
+        deviceModel.setDeviceData("angleZ", round((angle_z + 360) % 360, 3))
         
     def get_mag(self,datahex, deviceModel):
         _x = deviceModel.get_int(bytes([datahex[2],datahex[3]]))
