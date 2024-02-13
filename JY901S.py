@@ -682,13 +682,13 @@ def readCompassConfig(device):
     :return:
     """
     print("Reading compass configuration")
-    print("Output frequency: ", device.readReg(0x03, 1))
-    print("Output mode: ", device.readReg(0x02, 1))
-    print("Orientation: ", device.readReg(0x23, 1))
-    print("Mode: ", device.readReg(0x24, 1))
-    print("K-value: ", device.readReg(0x25, 1))
-    print("Acceleration filter: ", device.readReg(0x2A, 1))
-    print("Send data on power on: ", device.readReg(0x2D, 1))
+    print("Output frequency: ", device.readReg(0x03, 1)[0])
+    print("Output mode: ", device.readReg(0x02, 1)[0])
+    print("Orientation: ", device.readReg(0x23, 1)[0])
+    print("Mode: ", device.readReg(0x24, 1)[0])
+    print("K-value: ", device.readReg(0x25, 1)[0])
+    print("Acceleration filter: ", device.readReg(0x2A, 1)[0])
+    print("Send data on power on: ", device.readReg(0x2D, 1)[0])
     # data = device.readReg(0x04, 1, "Mode")
     # if (len(data) > 0):
     #     print("Mode: ", data)
