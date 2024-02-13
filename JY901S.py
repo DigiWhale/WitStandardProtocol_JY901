@@ -619,7 +619,7 @@ if __name__ == '__main__':
     print("#" * 50)                                 
     readConfig(compass, 0x01, 1)
     print("#" * 50)                                 
-    readConfig(compass, 0x02, 1)
+    readConfig(compass, 0x02, 3)
     print("#" * 50)                                 
     readConfig(compass, 0x03, 1)
     print("#" * 50)                                 
