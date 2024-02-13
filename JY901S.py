@@ -519,22 +519,22 @@ class DeviceModel:
         if self.protocolResolver is not None:
             self.protocolResolver.sendData(data)
 
-def readConfig(device):
+def readConfig(device, regAddr, regCount):
     """
     Example of reading configuration information
     :param device: Device model
     :return:
     """
-    tVals = device.readReg(0x02, 3)
+    tVals = device.readReg(regAddr, regCount)
     if (len(tVals) > 0):
         print("Resultx: " + str(tVals))
     else:
         print("No response")
-    tVals = device.readReg(0x23, 2)
-    if (len(tVals) > 0):
-        print("Resultz: " + str(tVals))
-    else:
-        print("No response")
+    # tVals = device.readReg(0x23, 2)
+    # if (len(tVals) > 0):
+    #     print("Resultz: " + str(tVals))
+    # else:
+    #     print("No response")
 
 def setConfig(device):
     """
@@ -602,7 +602,7 @@ if __name__ == '__main__':
     device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
-    readConfig(device)    
+    readConfig(device, 0x02, 3)    
     setConfig(device)  
     FiledCalibration(device)                            
     device.dataProcessor.onVarChanged.append(onUpdate)                             
