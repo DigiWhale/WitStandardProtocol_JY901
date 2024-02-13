@@ -275,7 +275,7 @@ class WitProtocolResolver(IProtocolResolver):
         for n in range(0, readCount):
             self.TempFindValues = []  # Clear data
             tempBytes = self.get_readbytes(regAddr + n * 4)  # Get read instruction
-            print("Read register: " + str(tempBytes)
+            print("Read register: " + str(tempBytes))
             success_bytes = deviceModel.serialPort.write(tempBytes)  # Write data
             for i in range(0, 20):  # Set timeout 1 second
                 time.sleep(0.05)  # Sleep 50 milliseconds
