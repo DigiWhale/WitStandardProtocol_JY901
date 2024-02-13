@@ -636,6 +636,10 @@ def setConfig(device):
     print(RED + "Setting Bandwidth" + RESET)
     device.writeReg(0x1F, 0)
     time.sleep(0.1)
+    # reset angle
+    print(RED + "Resetting Angle" + RESET)
+    device.writeReg(0x01, 0x08)
+    time.sleep(0.1)
     print(RED + "Saving..." + RESET)
     device.save()
     time.sleep(0.1)
