@@ -236,7 +236,6 @@ class WitProtocolResolver():
             tempBytes = self.get_readbytes(regAddr + n * 4)
             print("tempBytes: ", [hex(byte) for byte in tempBytes])            
             success_bytes = deviceModel.serialPort.write(tempBytes)  
-            print("success_bytes: ", success_bytes)  
             for i in range(0,20): 
                 time.sleep(0.05)  
                 if (len(self.TempFindValues)>0):   
@@ -618,6 +617,7 @@ if __name__ == '__main__':
     readConfig(device, 0x01, 1)
     readConfig(device, 0x03, 1)
     readConfig(device, 0x04, 1)
+    readConfig(device, 0x1F, 1)
     setConfig(device)  
     FiledCalibration(device)                            
     device.dataProcessor.onVarChanged.append(onUpdate)                             
