@@ -165,7 +165,6 @@ class WitProtocolResolver():
             heading = (heading_degrees + 360) % 360
             # Update device model with heading data
             deviceModel.setDeviceData("heading", heading)
-            print("Heading: ", heading_degrees, "°")
             return heading
         except Exception as e:
             print(e)
@@ -592,7 +591,7 @@ def onUpdate(deviceModel):
         print("Magnetic field: {:.0f}, {:.0f}, {:.0f}".format(deviceModel.getDeviceData("magX"),
                                                             deviceModel.getDeviceData("magY"),
                                                             deviceModel.getDeviceData("magZ")))
-        print("Heading angle: {:.2f}, Ground speed: {:.2f}".format(deviceModel.getDeviceData("Yaw"),
+        print("Heading angle: {:.2f}, Ground speed: {:.2f}".format(deviceModel.getDeviceData("heading"),
                                                                     deviceModel.getDeviceData("Speed")))
     except Exception as e:
         print(e)
