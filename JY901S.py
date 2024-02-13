@@ -332,7 +332,7 @@ class DataProcessor():
 
     @staticmethod
     def onUpdate(*args):
-        for fun in JY901SDataProcessor.onVarChanged:
+        for fun in DataProcessor.onVarChanged:
             fun(*args)
 
 class SerialConfig:
