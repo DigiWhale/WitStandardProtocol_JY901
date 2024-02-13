@@ -560,6 +560,9 @@ def onUpdate(deviceModel):
          , " Angular velocity:" + str(deviceModel.getDeviceData("gyroX")) +","+ str(deviceModel.getDeviceData("gyroY")) +","+ str(deviceModel.getDeviceData("gyroZ"))
          , " Angle:" + str(deviceModel.getDeviceData("angleX")) +","+ str(deviceModel.getDeviceData("angleY")) +","+ str(deviceModel.getDeviceData("angleZ"))
         , " Magnetic field:" + str(deviceModel.getDeviceData("magX")) +","+ str(deviceModel.getDeviceData("magY"))+","+ str(deviceModel.getDeviceData("magZ"))
+        , " Longitude:" + str(deviceModel.getDeviceData("lon")) + " Latitude:" + str(deviceModel.getDeviceData("lat"))
+        , " Heading angle:" + str(deviceModel.getDeviceData("Yaw")) + " Ground speed:" + str(deviceModel.getDeviceData("Speed"))
+         , " Quaternion:" + str(deviceModel.getDeviceData("q1")) + "," + str(deviceModel.getDeviceData("q2")) + "," + str(deviceModel.getDeviceData("q3"))+ "," + str(deviceModel.getDeviceData("q4"))
           )
     if (_IsWriteF):    
         Tempstr += "\t"+str(deviceModel.getDeviceData("accX")) + "\t"+str(deviceModel.getDeviceData("accY"))+"\t"+ str(deviceModel.getDeviceData("accZ"))
@@ -567,6 +570,10 @@ def onUpdate(deviceModel):
         Tempstr += "\t" + str(deviceModel.getDeviceData("angleX")) +"\t" + str(deviceModel.getDeviceData("angleY")) +"\t"+ str(deviceModel.getDeviceData("angleZ"))
         Tempstr += "\t" + str(deviceModel.getDeviceData("temperature"))
         Tempstr += "\t" + str(deviceModel.getDeviceData("magX")) +"\t" + str(deviceModel.getDeviceData("magY")) +"\t"+ str(deviceModel.getDeviceData("magZ"))
+        Tempstr += "\t" + str(deviceModel.getDeviceData("lon")) + "\t" + str(deviceModel.getDeviceData("lat"))
+        Tempstr += "\t" + str(deviceModel.getDeviceData("Yaw")) + "\t" + str(deviceModel.getDeviceData("Speed"))
+        Tempstr += "\t" + str(deviceModel.getDeviceData("q1")) + "\t" + str(deviceModel.getDeviceData("q2"))
+        Tempstr += "\t" + str(deviceModel.getDeviceData("q3")) + "\t" + str(deviceModel.getDeviceData("q4"))
         Tempstr += "\r\n"
         _writeF.write(Tempstr)
 
@@ -575,15 +582,19 @@ def startRecord():
     Start recording data
     :return:
     """
-    global _writeF
-    global _IsWriteF
+    # global _writeF
+    # global _IsWriteF
     _writeF = open(str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')) + ".txt", "w")
     _IsWriteF = True
+    Tempstr = "Chiptime"
     Tempstr +=  "\tax(g)\tay(g)\taz(g)"
     Tempstr += "\twx(deg/s)\twy(deg/s)\twz(deg/s)"
     Tempstr += "\tAngleX(deg)\tAngleY(deg)\tAngleZ(deg)"
     Tempstr += "\tT(°)"
     Tempstr += "\tmagx\tmagy\tmagz"
+    Tempstr += "\tlon\tlat"
+    Tempstr += "\tYaw\tSpeed"
+    Tempstr += "\tq1\tq2\tq3\tq4"
     Tempstr += "\r\n"
     _writeF.write(Tempstr)
     print("Start recording data", Tempstr)
