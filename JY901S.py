@@ -75,7 +75,7 @@ class WitProtocolResolver():
                         # print("Quaternion: ", deviceModel.getDeviceData("q1"),deviceModel.getDeviceData("q2"),deviceModel.getDeviceData("q3"),deviceModel.getDeviceData("q4"))
                     elif(self.TempBytes[1]==0x5f):           
                         self.get_find(self.TempBytes,deviceModel)
-                        # print("Find: ", self.TempFindValues)
+                        print("Find: ", self.TempBytes)
                     self.TempBytes=[]                        
                 else:                                        
                     del self.TempBytes[0]                    
@@ -233,7 +233,7 @@ class WitProtocolResolver():
         _millisecond = tempVals[3]              
         deviceModel.setDeviceData("Chiptime",
                                   str(_year) + "-" + str(_moth) + "-" + str(_day) + " " + str(_hour) + ":" + str(
-                                      _minute) + ":" + str(_second) + "." + str(_millisecond))  # 设备模型芯片时间赋值
+                                      _minute) + ":" + str(_second) + "." + str(_millisecond)) 
 
     def readReg(self, regAddr,regCount, deviceModel):
         tempResults = []                      
