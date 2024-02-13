@@ -617,6 +617,7 @@ if __name__ == '__main__':
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
     readConfig(device, 0x01, 1)
+    readConfig(device, 0x02, 1)
     readConfig(device, 0x03, 1)
     readConfig(device, 0x04, 1)
     readConfig(device, 0x1F, 1)
