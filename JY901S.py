@@ -273,7 +273,8 @@ class WitProtocolResolver():
         return tempResults
 
     def writeReg(self, regAddr,sValue, deviceModel):
-        tempBytes = self.get_writebytes(regAddr,sValue)                  
+        tempBytes = self.get_writebytes(regAddr,sValue) 
+        print("Write Command: ", [hex(byte) for byte in tempBytes], tempBytes)             
         success_bytes = deviceModel.serialPort.write(tempBytes) 
                  
     def unlock(self, deviceModel):
