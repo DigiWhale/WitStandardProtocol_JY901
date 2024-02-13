@@ -634,13 +634,6 @@ def setConfig(device):
     print(RED + "Setting to send data on power on" + RESET)
     device.writeReg(0x2D, 1)
     time.sleep(0.1)
-    # set gyro static threshold
-    print(RED + "Setting gyro static threshold" + RESET)
-    error = device.readReg(0x6A, 2, "WERROR")
-    werror = (error[1]/1000*180/3.1415926)*1.2
-    print("WERROR: ", error[1]/1000*180/3.1415926)
-    device.writeReg(0x61, 50)
-    time.sleep(0.1)
     print(RED + "Saving..." + RESET)
     device.save()
     time.sleep(0.1)
