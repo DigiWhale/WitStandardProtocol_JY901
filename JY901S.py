@@ -595,17 +595,17 @@ def setConfig(device):
     time.sleep(0.1)
     
 def set_compass_data_mode(device):
-    TIME =  0
+    TIME =  1
     ACC =  1
     GYRO =  1
     ANGLE =  1
     MAG =  1
-    PORT =  0
-    PRESS =  0
-    GPS =  0
-    VELOCITY =  0
-    QUATER =  0
-    BGSA =  0
+    PORT =  1
+    PRESS =  1
+    GPS =  1
+    VELOCITY =  1
+    QUATER =  1
+    BGSA =  1
     
     # Convert to binary string
     binary_string = f"{BGSA}{QUATER}{VELOCITY}{GPS}{PRESS}{PORT}{MAG}{ANGLE}{GYRO}{ACC}{TIME}"
@@ -683,7 +683,7 @@ if __name__ == '__main__':
     compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     compass.serialConfig.baud = 9600                     
     compass.openDevice()
-    # set_compass_data_mode(compass)
+    set_compass_data_mode(compass)
     setConfig(compass)  
     print("#" * 50)                                 
     print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
