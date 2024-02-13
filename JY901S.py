@@ -480,7 +480,7 @@ class Witmotion:
         if self.protocolResolver is not None:
             self.protocolResolver.sendData(data, self)
 
-    def readReg(self, regAddr, regCount, notes):
+    def readReg(self, regAddr, regCount, notes=""):
         """
         Read register
         :param regAddr: Register address
