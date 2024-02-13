@@ -227,7 +227,7 @@ class WitProtocolResolver():
             tempBytes = self.get_readbytes(regAddr + n * 4)
             print("tempBytes: ", [hex(byte) for byte in tempBytes])            
             success_bytes = deviceModel.serialPort.write(tempBytes)  
-            print("success_bytes: ", [hex(byte) for byte in success_bytes])  
+            print("success_bytes: ", success_bytes)  
             for i in range(0,20): 
                 time.sleep(0.05)  
                 if (len(self.TempFindValues)>0):   
@@ -604,7 +604,7 @@ if __name__ == '__main__':
     device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
-    readConfig(device, 0x02, 1)    
+    readConfig(device, 0x02, 3)    
     setConfig(device)  
     FiledCalibration(device)                            
     device.dataProcessor.onVarChanged.append(onUpdate)                             
