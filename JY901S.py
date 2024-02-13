@@ -146,16 +146,28 @@ class WitProtocolResolver():
         
     def calculate_heading(self, deviceModel):
         try:
-            # Calculate heading in degrees
-            heading_degrees = math.degrees(math.atan2(deviceModel.getDeviceData("magY"), deviceModel.getDeviceData("magX")))
-            # Convert the heading to the range of 0 to 360 degrees
+            # Get magnetometer and accelerometer data
+            mag_x = deviceModel.getDeviceData("magX")
+            mag_y = deviceModel.getDeviceData("magY")
+            acc_x = deviceModel.getDeviceData("accX")
+            acc_y = deviceModel.getDeviceData("accY")
+            acc_z = deviceModel.getDeviceData("accZ")
+            # Calculate tilt-compensated heading
+            tilt_heading = math.atan2(mag_y, mag_x)
+            pitch = math.atan2(acc_x, math.sqrt(acc_y**2 + acc_z**2))
+            roll = math.atan2(-acc_y, acc_z)
+            # Compensate for tilt
+            heading = tilt_heading + roll  # Adjust for roll
+            # Optionally, you can also adjust for pitch if needed:
+            # heading -= pitch
+            # Convert heading to degrees
+            heading_degrees = math.degrees(heading)
             heading = (heading_degrees + 360) % 360
-            print(heading)
+            # Update device model with heading data
             deviceModel.setDeviceData("heading", round(heading, 2))
             return heading
         except Exception as e:
             print(e)
-
 
     def get_lonlat(self,datahex, deviceModel):
 
