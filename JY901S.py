@@ -695,6 +695,15 @@ def readCompassConfig(device):
     data = device.readReg(0x23, 1, "Mode")
     if (len(data) > 0):
         print("Mode: ", data)
+    data = device.readReg(0x24, 1, "Mode")
+    if (len(data) > 0):
+        print("Mode: ", data)
+    data = device.readReg(0x25, 1, "Mode")
+    if (len(data) > 0):
+        print("Mode: ", data)
+    data = device.readReg(0x23, 3, "Mode")
+    if (len(data) > 0):
+        print("Mode: ", data)
         
     # data = device.readReg(0x02, 3, "Mode")
     # if (len(data) > 0):
