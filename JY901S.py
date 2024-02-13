@@ -90,7 +90,7 @@ class WitProtocolResolver():
                         # print("Quaternion: ", deviceModel.getDeviceData("q1"),deviceModel.getDeviceData("q2"),deviceModel.getDeviceData("q3"),deviceModel.getDeviceData("q4"))
                     elif(self.TempBytes[1]==0x5f):           
                         self.get_find(self.TempBytes,deviceModel)
-                        print("find: ", [f"0x{byte:02X}" for byte in self.TempBytes])
+                        # print("find: ", [f"0x{byte:02X}" for byte in self.TempBytes])
                     self.TempBytes=[]                        
                 else:                                        
                     del self.TempBytes[0]                    
@@ -306,7 +306,6 @@ class WitProtocolResolver():
         self.save(deviceModel)                                          
 
     def get_find(self,datahex, deviceModel):
-        print("datahex: ", datahex)
         t0l = datahex[2]
         t0h = datahex[3]
         t1l = datahex[4]
@@ -320,7 +319,6 @@ class WitProtocolResolver():
         val1 = (t1h << 8 | t1l)
         val2 = (t2h << 8 | t2l)
         val3 = (t3h << 8 | t3l)
-        print("val0: ", val0, " val1: ", val1, " val2: ", val2, " val3: ", val3)
         self.TempFindValues.extend([val0,val1,val2,val3])
 
 class DataProcessor():
