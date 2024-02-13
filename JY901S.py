@@ -250,7 +250,7 @@ class WitProtocolResolver():
                                   str(_year) + "-" + str(_moth) + "-" + str(_day) + " " + str(_hour) + ":" + str(
                                       _minute) + ":" + str(_second) + "." + str(_millisecond)) 
 
-    def readReg(self, regAddr,regCount, deviceModel):
+    def readReg(self, regAddr,regCount, deviceModel, notes=""):
         tempResults = []                      
         readCount = int(regCount/4)           
         if (regCount % 4>0):
@@ -259,7 +259,7 @@ class WitProtocolResolver():
             self.TempFindValues = []  
             tempBytes = self.get_readbytes(regAddr + n * 4)
             hex_string = ' '.join(hex(x)[2:].zfill(2) for x in tempBytes)
-            print("Read Register Command: ", hex_string)            
+            print(f"Read {notes}: ", hex_string)            
             success_bytes = deviceModel.serialPort.write(tempBytes)  
             for i in range(0,20): 
                 time.sleep(0.05)  
@@ -633,11 +633,14 @@ def setConfig(device):
     print(RED + "Setting to send data on power on" + RESET)
     device.writeReg(0x2D, 1)
     time.sleep(0.1)
+    
+    device.readReg(0x6A, 1, "WERROR")
+    
     # set gyro static threshold
     print(RED + "Setting gyro static threshold" + RESET)
     device.writeReg(0x61, 50)
     time.sleep(0.1)
-    print(RED + "Saaving..." + RESET)
+    print(RED + "Saving..." + RESET)
     device.save()
     time.sleep(0.1)
     print(GREEN + "#"*50 + RESET)
