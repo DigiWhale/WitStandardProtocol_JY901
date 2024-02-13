@@ -21,6 +21,21 @@ class WitProtocolResolver():
     '0x08': 'Set the angle reference',
     '0x09': 'Magnetic Field Calibration (Dual Plane Mode)'
     }
+    frequency_dict = {
+    '0x01': '0.2Hz',
+    '0x02': '0.5Hz',
+    '0x03': '1Hz',
+    '0x04': '2Hz',
+    '0x05': '5Hz',
+    '0x06': '10Hz',
+    '0x07': '20Hz',
+    '0x08': '50Hz',
+    '0x09': '100Hz',
+    '0x0B': '200Hz',
+    '0x0C': 'single return',
+    '0x0D': 'no return'
+    }
+
 
     def setConfig(self, deviceModel):
         pass
@@ -675,7 +690,7 @@ if __name__ == '__main__':
     print("#" * 50)                                 
     readConfig(compass, 0x02, 4)
     print("#" * 50)                                 
-    readConfig(compass, 0x03, 1)
+    print(compass.protocolResolver.frequency_dict[readConfig(compass, 0x03, 1)])
     print("#" * 50)                                 
     readConfig(compass, 0x04, 1)
     print("#" * 50)                                 
