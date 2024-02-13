@@ -692,13 +692,13 @@ def readCompassConfig(device):
     # print("K-value: ", device.readReg(0x25, 1))
     # print("Acceleration filter: ", device.readReg(0x2A, 1))
     # print("Send data on power on: ", device.readReg(0x2D, 1))
-    data = device.readReg(0x23, 0, "Mode")
+    data = device.readReg(0x23, 1, "Mode")
     if (len(data) > 0):
         print("Mode: ", data)
         
-    data = device.readReg(0x02, 3, "Mode")
-    if (len(data) > 0):
-        print("Mode: ", data)
+    # data = device.readReg(0x02, 3, "Mode")
+    # if (len(data) > 0):
+    #     print("Mode: ", data)
     # print("#" * 50)                                 
     # print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
     # print("#" * 50)                                 
