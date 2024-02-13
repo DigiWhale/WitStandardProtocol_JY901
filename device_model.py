@@ -54,8 +54,8 @@ class DeviceModel:
         print("Initializing device model")
         self.deviceName = deviceName
         self.protocolResolver = protocolResolver
-        # self.dataProcessor = dataProcessor
-        # self.dataUpdateListener = dataUpdateListener
+        self.dataProcessor = dataProcessor
+        self.dataUpdateListener = dataUpdateListener
         # _thread.start_new_thread(self.readDataTh, ("Data-Received-Thread", 10, ))
 
     def setDeviceData(self, key, value):
