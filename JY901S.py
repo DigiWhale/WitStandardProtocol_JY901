@@ -239,7 +239,8 @@ class WitProtocolResolver():
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue)                  
-        success_bytes = deviceModel.serialPort.write(tempBytes)          
+        success_bytes = deviceModel.serialPort.write(tempBytes) 
+                 
     def unlock(self, deviceModel):
         tempBytes = self.get_writebytes(0x69, 0xb588)                    
         success_bytes = deviceModel.serialPort.write(tempBytes)          
@@ -260,7 +261,6 @@ class WitProtocolResolver():
         time.sleep(0.1)                                                  
         tempBytes = self.get_writebytes(0x01, 0x07)                      
         success_bytes = deviceModel.serialPort.write(tempBytes)          
-
 
     def EndFiledCalibration(self,deviceModel):
         self.unlock(deviceModel)                                         
@@ -603,7 +603,8 @@ if __name__ == '__main__':
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
     readConfig(device)    
-    setConfig(device)                              
+    setConfig(device)  
+    FiledCalibration(device)                            
     device.dataProcessor.onVarChanged.append(onUpdate)                             
     input()
     device.closeDevice()
