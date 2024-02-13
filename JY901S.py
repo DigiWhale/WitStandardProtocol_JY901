@@ -271,7 +271,7 @@ class WitProtocolResolver():
                         else:
                             break
                     break
-        return tempResults
+        return [tempResults[0], bin(tempResults[0] & 0xFFFF), hex(tempResults[0] & 0xFFFF)]
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
@@ -682,13 +682,13 @@ def readCompassConfig(device):
     :return:
     """
     print("Reading compass configuration")
-    print("Output frequency: ", hex(device.readReg(0x03, 1)[0] & 0xFFFF))
-    print("Output mode: ", hex(device.readReg(0x02, 1)[0] & 0xFFFF))
-    print("Orientation: ", hex(device.readReg(0x23, 1)[0] & 0xFFFF))
-    print("Mode: ", hex(device.readReg(0x24, 1)[0] & 0xFFFF))
-    print("K-value: ", hex(device.readReg(0x25, 1)[0] & 0xFFFF))
-    print("Acceleration filter: ", hex(device.readReg(0x2A, 1)[0] & 0xFFFF))
-    print("Send data on power on: ", hex(device.readReg(0x2D, 1)[0] & 0xFFFF))
+    print("Output frequency: ", device.readReg(0x03, 1))
+    print("Output mode: ", device.readReg(0x02, 1))
+    print("Orientation: ", device.readReg(0x23, 1))
+    print("Mode: ", device.readReg(0x24, 1))
+    print("K-value: ", device.readReg(0x25, 1))
+    print("Acceleration filter: ", device.readReg(0x2A, 1))
+    print("Send data on power on: ", device.readReg(0x2D, 1))
     # data = device.readReg(0x04, 1, "Mode")
     # if (len(data) > 0):
     #     print("Mode: ", data)
