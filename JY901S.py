@@ -271,7 +271,7 @@ class WitProtocolResolver():
                         else:
                             break
                     break
-        return tempResults
+        return [tempResults[0], format(tempResults[0] & 0xFFFF, '016b'), hex(tempResults[0] & 0xFFFF)]
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
@@ -315,10 +315,10 @@ class WitProtocolResolver():
         t3l = datahex[8]
         t3h = datahex[9]
 
-        val0 = (int(t0h, 16) << 8 | int(t0l, 16))
-        val1 = (int(t1h, 16) << 8 | int(t1l, 16))
-        val2 = (int(t2h, 16) << 8 | int(t2l, 16))
-        val3 = (int(t3h, 16) << 8 | int(t3l, 16))
+        val0 = (t0h << 8 | t0l)
+        val1 = (t1h << 8 | t1l)
+        val2 = (t2h << 8 | t2l)
+        val3 = (t3h << 8 | t3l)
         self.TempFindValues.extend([val0,val1,val2,val3])
 
 class DataProcessor():
