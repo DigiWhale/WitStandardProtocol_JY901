@@ -616,6 +616,7 @@ if __name__ == '__main__':
     compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     compass.serialConfig.baud = 9600                     
     compass.openDevice()
+    setConfig(compass)  
     print("#" * 50)                                 
     readConfig(compass, 0x01, 1)
     print("#" * 50)                                 
@@ -631,7 +632,6 @@ if __name__ == '__main__':
     print("#" * 50)                                 
     readConfig(compass, 0x23, 2)
     print("#" * 50)                                 
-    setConfig(compass)  
     print(compass.deviceData)
     FiledCalibration(compass)                            
     compass.dataProcessor.onVarChanged.append(onUpdate)                             
