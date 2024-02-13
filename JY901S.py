@@ -618,6 +618,7 @@ if __name__ == '__main__':
     readConfig(device, 0x03, 1)
     readConfig(device, 0x04, 1)
     readConfig(device, 0x1F, 1)
+    readConfig(device, 0x5F, 1)
     setConfig(device)  
     FiledCalibration(device)                            
     device.dataProcessor.onVarChanged.append(onUpdate)                             
