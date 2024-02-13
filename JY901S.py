@@ -77,15 +77,15 @@ class WitProtocolResolver():
         azh = datahex[7]
 
         tempVal = (datahex[9] << 8 | datahex[8])
-        acc_x = (axh << 8 | axl) / 32768.0 * self.accRange
-        acc_y = (ayh << 8 | ayl) / 32768.0 * self.accRange
-        acc_z = (azh << 8 | azl) / 32768.0 * self.accRange
-        if acc_x >= self.accRange:
-            acc_x -= 2 * self.accRange
-        if acc_y >= self.accRange:
-            acc_y -= 2 * self.accRange
-        if acc_z >= self.accRange:
-            acc_z -= 2 * self.accRange
+        acc_x = (axh << 8 | axl) / 32768.0 * self.accRange * 9.8
+        acc_y = (ayh << 8 | ayl) / 32768.0 * self.accRange * 9.8
+        acc_z = (azh << 8 | azl) / 32768.0 * self.accRange * 9.8
+        # if acc_x >= self.accRange:
+        #     acc_x -= 2 * self.accRange
+        # if acc_y >= self.accRange:
+        #     acc_y -= 2 * self.accRange
+        # if acc_z >= self.accRange:
+        #     acc_z -= 2 * self.accRange
 
         deviceModel.setDeviceData("accX", round(acc_x, 4))    
         deviceModel.setDeviceData("accY", round(acc_y, 4))   
