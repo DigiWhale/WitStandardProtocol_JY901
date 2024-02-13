@@ -258,9 +258,9 @@ class WitProtocolResolver():
         for n in range(0,readCount):
             self.TempFindValues = []  
             tempBytes = self.get_readbytes(regAddr + n * 4)
-            print("Write Command: ", [hex(byte) for byte in tempBytes])            
+            hex_string = ''.join(hex(int(x, 16))[2:].zfill(2) for x in tempBytes)
+            print("Read Register Command: ", hex_string)            
             success_bytes = deviceModel.serialPort.write(tempBytes)  
-            print("success_bytes: ", success_bytes)
             for i in range(0,20): 
                 time.sleep(0.05)  
                 if (len(self.TempFindValues)>0):   
@@ -274,7 +274,8 @@ class WitProtocolResolver():
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
-        print("Write Command: ", [hex(byte) for byte in tempBytes], tempBytes)             
+        hex_string = ''.join(hex(int(x, 16))[2:].zfill(2) for x in tempBytes)
+        print("Write Register Command: ", hex_string)             
         success_bytes = deviceModel.serialPort.write(tempBytes) 
                  
     def unlock(self, deviceModel):
@@ -344,29 +345,21 @@ class SerialConfig:
 
 class Witmotion:
     # Device Name
-    deviceName = "My Device"
-
+    deviceName = "MSRS Compass"
     # Device ID
     ADDR = 0x50
-
     # Device Data Dictionary
     deviceData = {}
-
     # Is Open
     isOpen = False
-
     # Serial Port
     serialPort = None
-
     # Serial Configuration
     serialConfig = SerialConfig()
-
     # Update Trigger
     dataUpdateListener = "51_0"
-
     # Data Processor
     dataProcessor = None
-
     # Protocol Resolver
     protocolResolver = None
 
