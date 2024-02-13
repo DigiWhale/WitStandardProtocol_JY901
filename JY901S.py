@@ -315,7 +315,7 @@ class SerialConfig:
     # Baud rate
     baud = 9600
 
-class DeviceModel:
+class Witmotion:
     # Device Name
     deviceName = "My Device"
 
@@ -606,26 +606,26 @@ def onUpdate(deviceModel):
 
 
 if __name__ == '__main__':
-    device = DeviceModel(
+    compass = Witmotion(
         "MSRS",
         WitProtocolResolver(),
         JY901SDataProcessor(),
         "51_0"
     )
 
-    device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
-    device.serialConfig.baud = 9600                     
-    device.openDevice()                                 
-    readConfig(device, 0x01, 1)
-    readConfig(device, 0x02, 1)
-    readConfig(device, 0x03, 1)
-    readConfig(device, 0x04, 1)
-    readConfig(device, 0x1F, 1)
-    readConfig(device, 0x5F, 1)
-    setConfig(device)  
-    print(device.deviceData)
-    FiledCalibration(device)                            
-    device.dataProcessor.onVarChanged.append(onUpdate)                             
+    compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
+    compass.serialConfig.baud = 9600                     
+    compass.opencompass()                                 
+    readConfig(compass, 0x01, 1)
+    readConfig(compass, 0x02, 1)
+    readConfig(compass, 0x03, 1)
+    readConfig(compass, 0x04, 1)
+    readConfig(compass, 0x1F, 1)
+    readConfig(compass, 0x5F, 1)
+    setConfig(compass)  
+    print(compass.deviceData)
+    FiledCalibration(compass)                            
+    compass.dataProcessor.onVarChanged.append(onUpdate)                             
     input()
-    device.closeDevice()
+    compass.closeDevice()
                                      
