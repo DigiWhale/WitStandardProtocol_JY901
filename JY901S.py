@@ -43,7 +43,8 @@ class WitProtocolResolver():
                     elif(self.TempBytes[1]==0x53):                    
                         self.get_angle(self.TempBytes,deviceModel)    
                     elif(self.TempBytes[1]==0x54):                    
-                        self.get_mag(self.TempBytes, deviceModel)     
+                        self.get_mag(self.TempBytes, deviceModel)   
+                        self.calculate_heading(deviceModel)  
                         deviceModel.dataProcessor.onUpdate(deviceModel) 
                     elif(self.TempBytes[1]==0x57):                    
                         self.get_lonlat(self.TempBytes, deviceModel)     
@@ -139,17 +140,17 @@ class WitProtocolResolver():
         _x = deviceModel.get_int(bytes([datahex[2],datahex[3]]))
         _y = deviceModel.get_int(bytes([datahex[4],datahex[5]]))
         _z = deviceModel.get_int(bytes([datahex[6],datahex[7]]))
-        print(self.calculate_heading(_x, _y))
         deviceModel.setDeviceData("magX", round(_x, 0))
         deviceModel.setDeviceData("magY", round(_y, 0))
         deviceModel.setDeviceData("magZ", round(_z, 0))
         
-    def calculate_heading(self, mx, my):
+    def calculate_heading(self, deviceModel):
         try:
             # Calculate heading in degrees
-            heading_degrees = math.degrees(math.atan2(my, mx))
+            heading_degrees = math.degrees(math.atan2(deviceModel["magY"], deviceModel["magX"]))
             # Convert the heading to the range of 0 to 360 degrees
             adjusted_heading_degrees = (heading_degrees + 360) % 360
+            print(adjusted_heading_degrees)
             return adjusted_heading_degrees
         except Exception as e:
             print(e)
