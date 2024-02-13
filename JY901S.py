@@ -123,9 +123,9 @@ class WitProtocolResolver():
         rzl = datahex[6]
         rzh = datahex[7]
 
-        angle_x = (rxh << 8 | rxl) / 32768.0 * -self.angleRange
-        angle_y = (ryh << 8 | ryl) / 32768.0 * -self.angleRange
-        angle_z = (rzh << 8 | rzl) / 32768.0 * -self.angleRange
+        angle_x = (rxh << 8 | rxl) / 32768.0 * self.angleRange * -1
+        angle_y = (ryh << 8 | ryl) / 32768.0 * self.angleRange * -1
+        angle_z = (rzh << 8 | rzl) / 32768.0 * self.angleRange * -1
         if angle_x >= self.angleRange:
             angle_x -= 2 * self.angleRange
         if angle_y >= self.angleRange:
