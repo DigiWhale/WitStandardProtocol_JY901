@@ -13,15 +13,14 @@ class WitProtocolResolver():
     angleRange = 180.0 
     TempFindValues=[]
     cal_dict = {
-    0x00: 'Normal working mode',
-    0x01: 'Automatic accelerometer calibration',
-    0x03: 'Height reset',
-    0x04: 'Set the heading angle to zero',
-    0x07: 'Magnetic Field Calibration (Spherical Fitting)',
-    0x08: 'Set the angle reference',
-    0x09: 'Magnetic Field Calibration (Dual Plane Mode)'
+    '0x00': 'Normal working mode',
+    '0x01': 'Automatic accelerometer calibration',
+    '0x03': 'Height reset',
+    '0x04': 'Set the heading angle to zero',
+    '0x07': 'Magnetic Field Calibration (Spherical Fitting)',
+    '0x08': 'Set the angle reference',
+    '0x09': 'Magnetic Field Calibration (Dual Plane Mode)'
     }
-
 
     def setConfig(self, deviceModel):
         pass
