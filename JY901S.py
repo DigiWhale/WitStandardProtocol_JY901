@@ -544,7 +544,7 @@ def setConfig(device):
     """
     device.unlock()
     time.sleep(0.1)
-    device.writeReg(0x03, 1)
+    device.writeReg(0x03, 0x0B)
     time.sleep(0.1)
     device.writeReg(0x23, 0)
     time.sleep(0.1)
