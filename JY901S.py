@@ -165,6 +165,7 @@ class WitProtocolResolver():
             heading = (heading_degrees + 360) % 360
             # Update device model with heading data
             deviceModel.setDeviceData("heading", round(heading, 2))
+            print("Heading: ", heading_degrees, "°")
             return heading
         except Exception as e:
             print(e)
