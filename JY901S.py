@@ -161,10 +161,10 @@ class WitProtocolResolver():
             # Optionally, you can also adjust for pitch if needed:
             # heading -= pitch
             # Convert heading to degrees
-            heading_degrees = math.degrees(heading)
+            heading_degrees = round(math.degrees(heading), 2)
             heading = (heading_degrees + 360) % 360
             # Update device model with heading data
-            deviceModel.setDeviceData("heading", round(heading, 2))
+            deviceModel.setDeviceData("heading", heading)
             print("Heading: ", heading_degrees, "°")
             return heading
         except Exception as e:
