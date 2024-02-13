@@ -544,7 +544,7 @@ def setConfig(device):
     """
     device.unlock()
     time.sleep(0.1)
-    device.writeReg(0x03, 6)
+    device.writeReg(0x03, 1)
     time.sleep(0.1)
     device.writeReg(0x23, 0)
     time.sleep(0.1)
@@ -602,7 +602,8 @@ if __name__ == '__main__':
     device.serialConfig.portName = "/dev/ttyUSB_witmotion"           
     device.serialConfig.baud = 9600                     
     device.openDevice()                                 
-    readConfig(device)                                  
+    readConfig(device)    
+    setConfig(device)                              
     device.dataProcessor.onVarChanged.append(onUpdate)                             
     input()
     device.closeDevice()
