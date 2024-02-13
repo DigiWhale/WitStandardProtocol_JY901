@@ -271,7 +271,7 @@ class WitProtocolResolver():
                         else:
                             break
                     break
-        return [tempResults[0], format(tempResults[0] & 0xFFFF, '016b'), hex(tempResults[0] & 0xFFFF)]
+        return [tempResults[0], format(tempResults[0] & 0xFFFF, '016b'), hex(tempResults[0] & 0xFFFF), regAddr]
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
@@ -640,6 +640,10 @@ def setConfig(device):
     print(RED + "Resetting Angle" + RESET)
     device.writeReg(0x01, 0x08)
     time.sleep(0.1)
+    # reset angle
+    print(RED + "Setting Cal to Normal Mode" + RESET)
+    device.writeReg(0x01, 0x00)
+    time.sleep(0.1)
     print(RED + "Saving..." + RESET)
     device.save()
     time.sleep(0.1)
@@ -707,6 +711,9 @@ def readCompassConfig(device):
     print("HXOFFSET:", device.readReg(0x0B, 1), "(Magnetic field X bias)")
     print("HYOFFSET:", device.readReg(0x0C, 1), "(Magnetic field Y bias)")
     print("HZOFFSET:", device.readReg(0x0D, 1), "(Magnetic field Z bias)")
+    print("MAGRANGX:", device.readReg(0x1C, 1), "(Magnetic field X-axis range)")
+    print("MAGRANGY:", device.readReg(0x1D, 1), "(Magnetic field Y-axis range)")
+    print("MAGRANGZ:", device.readReg(0x1E, 1), "(Magnetic field Z-axis range)")
     print("D0MODE:", device.readReg(0x0E, 1), "(D0 Pin Mode)")
     print("D1MODE:", device.readReg(0x0F, 1), "(D1 Pin Mode)")
     print("D2MODE:", device.readReg(0x10, 1), "(D2 Pin Mode)")
