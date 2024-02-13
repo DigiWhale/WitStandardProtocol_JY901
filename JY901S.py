@@ -640,7 +640,7 @@ def setConfig(device):
     werror = round((error[1]/1000*180/3.1415926)*1.2, 2)
     hexwerror = hex(struct.unpack('<I', struct.pack('<f', werror))[0])
     print("WERROR: ", hexwerror)
-    device.writeReg(0x61, hexwerror)
+    device.writeReg(0x61, int(hexwerror, 16))
     time.sleep(0.1)
     print(RED + "Saving..." + RESET)
     device.save()
