@@ -671,7 +671,7 @@ if __name__ == '__main__':
     print("#" * 50)                                 
     print(compass.protocolResolver.cal_dict[readConfig(compass, 0x01, 1)])
     print("#" * 50)                                 
-    readConfig(compass, 0x02, 10)
+    readConfig(compass, 0x02, 11)
     print("#" * 50)                                 
     readConfig(compass, 0x03, 1)
     print("#" * 50)                                 
