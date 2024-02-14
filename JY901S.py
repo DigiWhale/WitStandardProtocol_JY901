@@ -271,7 +271,10 @@ class WitProtocolResolver():
                         else:
                             break
                     break
-        return [tempResults[0], format(tempResults[0] & 0xFFFF, '016b'), hex(tempResults[0] & 0xFFFF), regAddr, hex_string]
+        if tempResults == []:
+            print("No response")
+        else:
+            return [tempResults[0], format(tempResults[0] & 0xFFFF, '016b'), hex(tempResults[0] & 0xFFFF), regAddr, hex_string]
 
     def writeReg(self, regAddr,sValue, deviceModel):
         tempBytes = self.get_writebytes(regAddr,sValue) 
@@ -705,7 +708,6 @@ def print_offsets(deviceModel):
     print("MAGRANGX:", deviceModel.readReg(0x1C, 1), "(Magnetic field X-axis range)")
     print("MAGRANGY:", deviceModel.readReg(0x1D, 1), "(Magnetic field Y-axis range)")
     print("MAGRANGZ:", deviceModel.readReg(0x1E, 1), "(Magnetic field Z-axis range)")
-
 
 def readCompassConfig(device):
     """
