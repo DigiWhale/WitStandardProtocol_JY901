@@ -3,7 +3,7 @@ import time
 import threading
 import serial
 import math
-import struct
+import argparse
 
 class WitProtocolResolver():
     TempBytes=[]        
@@ -749,16 +749,23 @@ def readCompassConfig(device):
     print("WZSTATIC:", device.readReg(0x6F, 1), "(Angular velocity integral threshold)")
     # Add more print statements for each register
 
+
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='calibration flag')
+    parser.add_argument('--cal', type=str, default="false", help='eanble calibration flag')
+    args = parser.parse_args()
+
     compass = Witmotion("MSRS", WitProtocolResolver(), DataProcessor(), "51_0")
-    compass.serialConfig.portName = "/dev/ttyUSB_witmotion"           
+    compass.serialConfig.portName = "/dev/ttyUSB_witmotion"         
     compass.serialConfig.baud = 9600                     
     compass.openDevice()
     readCompassConfig(compass)
     setConfig(compass)  
-    FiledCalibration(compass)
+    if args.cal == "true":
+        FiledCalibration(compass)
     readCompassConfig(compass)                            
     compass.dataProcessor.onVarChanged.append(onUpdate)   
     input()
     compass.closeDevice()
+
                                      
