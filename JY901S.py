@@ -755,8 +755,8 @@ if __name__ == '__main__':
     readCompassConfig(compass)
     setConfig(compass)  
     readCompassConfig(compass)
-    # FiledCalibration(compass)                            
     compass.dataProcessor.onVarChanged.append(onUpdate)   
+    FiledCalibration(compass)                            
     input()
     compass.closeDevice()
                                      
